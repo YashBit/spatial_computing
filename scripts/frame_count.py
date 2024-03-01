@@ -3,7 +3,7 @@ import cv2
 import datetime 
 
 # create video capture object 
-data = cv2.VideoCapture('/Users/yashbharti/Desktop/spatial_computing/1.mp4') 
+data = cv2.VideoCapture('/Users/yashbharti/Desktop/Engineering/core_projects/spatio_Dev/spatial_computing/test_video.mp4') 
 print(data)
 # count the number of frames 
 frames = data.get(cv2.CAP_PROP_FRAME_COUNT) 
