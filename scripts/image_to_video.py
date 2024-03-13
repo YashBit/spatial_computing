@@ -56,10 +56,10 @@ original_video_path = "/Users/yashbharti/Desktop/Engineering/core_projects/spati
 fps = get_video_fps(original_video_path)
 
 # Path to the folder containing modified frames
-modified_frames_folder = "/Users/yashbharti/Desktop/Engineering/core_projects/spatio_Dev/spatial_computing/scripts/joint_images"
+modified_frames_folder = "/Users/yashbharti/Desktop/Engineering/core_projects/spatio_Dev/spatial_computing/scripts/join_images_100_dev"
 
 # Output video path for stitched frames
-output_video_path = "stitched_pup.mp4"
+output_video_path = "stitched_pup_5.mp4"
 
 # Convert modified frames to video with the same FPS as original video
 images_to_video(modified_frames_folder, output_video_path, fps)
