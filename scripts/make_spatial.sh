@@ -183,8 +183,8 @@ if [ "${DUAL}" -eq 1 ]
 then
     # Dual track mp4 extract
     echo "Extracting dual track video..."
-    ${FFMPEG} -i "${FILE}" -c:v copy -an -sn -map 0:0 -map_chapters -1 ${LEFT}.$$.mov
-    ${FFMPEG} -i "${FILE}" -c:v copy -an -sn -map 0:2 -map_chapters -1 ${RIGHT}.$$.mov
+    ${FFMPEG} -i "${FILE}" -c:v copy -an -sn -map 0:0 -map_chapters -1 left.$$.mov
+    ${FFMPEG} -i "${FILE}" -c:v copy -an -sn -map 0:2 -map_chapters -1 right.$$.mov
 fi
 
 if [ "${SBS}" -eq 1 ]
@@ -194,7 +194,7 @@ then
     then
         echo -ne ", doubling width of frame"
     fi
-    if [ "${RIGHT}" == "left" ]
+    if [ "right" == "left" ]
     then
         echo " (reversed)..."
     else
@@ -205,7 +205,7 @@ then
     # the video track cause it to think that the subtitles are the video, and you get nothing but
     # black with words for the video.
 
-    ${FFMPEG} -i "${FILE}" -filter_complex "[0]crop=iw/2:ih:0:0,scale=iw*${SCALE}:ih:flags=${SCALE_ALGORITHM},setsar=sar=${SAR},setdar=dar=${DAR}${GRAYSCALE}[left];[0]crop=iw/2:ih:ow:0,scale=iw*${SCALE}:ih:flags=${SCALE_ALGORITHM},setsar=sar=${SAR},setdar=dar=${DAR}${GRAYSCALE}[right]" -map "[left]" -c:v ${PRORES} -profile:v 3 -map 0:v:0 -an -map_chapters -1 ${LEFT}.$$.mov -map "[right]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 ${RIGHT}.$$.mov
+    ${FFMPEG} -i "${FILE}" -filter_complex "[0]crop=iw/2:ih:0:0,scale=iw*${SCALE}:ih:flags=${SCALE_ALGORITHM},setsar=sar=${SAR},setdar=dar=${DAR}${GRAYSCALE}[left];[0]crop=iw/2:ih:ow:0,scale=iw*${SCALE}:ih:flags=${SCALE_ALGORITHM},setsar=sar=${SAR},setdar=dar=${DAR}${GRAYSCALE}[right]" -map "[left]" -c:v ${PRORES} -profile:v 3 -map 0:v:0 -an -map_chapters -1 left.$$.mov -map "[right]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 right.$$.mov
     if [ $? -ne 0 ] && [ "${PRORES}" == "prores_videotoolbox" ]
     then
         # I am not sure why the videotoolbox prores encoder does not work with many sources, other
@@ -213,7 +213,7 @@ then
         # it, and if it fails, fall back to the software encoder prores_ks.
         echo "VideoToolbox Prores does not like source... Falling back to software encoder."
         PRORES=prores_ks
-        ${FFMPEG} -y -i "${FILE}" -filter_complex "[0]crop=iw/2:ih:0:0,scale=iw*${SCALE}:ih:flags=${SCALE_ALGORITHM},setsar=sar=${SAR},setdar=dar=${DAR}${GRAYSCALE}[left];[0]crop=iw/2:ih:ow:0,scale=iw*${SCALE}:ih:flags=${SCALE_ALGORITHM},setsar=sar=${SAR},setdar=dar=${DAR}${GRAYSCALE}[right]" -map "[left]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 ${LEFT}.$$.mov -map "[right]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 ${RIGHT}.$$.mov
+        ${FFMPEG} -y -i "${FILE}" -filter_complex "[0]crop=iw/2:ih:0:0,scale=iw*${SCALE}:ih:flags=${SCALE_ALGORITHM},setsar=sar=${SAR},setdar=dar=${DAR}${GRAYSCALE}[left];[0]crop=iw/2:ih:ow:0,scale=iw*${SCALE}:ih:flags=${SCALE_ALGORITHM},setsar=sar=${SAR},setdar=dar=${DAR}${GRAYSCALE}[right]" -map "[left]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 left.$$.mov -map "[right]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 right.$$.mov
     fi
 
     if [ ${CROP} -eq 1 ]
@@ -225,7 +225,7 @@ then
         CROP_START="-ss 00:5:00"
 
         echo "Calculating left border removal..."
-        LEFT_CROP=$( ${FFMPEG} -loglevel info ${CROP_START} -i "${LEFT}.$$.mov" -vf cropdetect -f null - 2>&1 | awk '/crop/{ print $8, $9, $10, $11; }' | grep -v detect | sed -e "s/[a-z]://g" | awk '{ w+=$1; h+=$2; x+=$3; y+=$4; } END { printf "crop=%d:%d:%d:%d",w/NR,h/NR,x/NR,y/NR; }' )
+        LEFT_CROP=$( ${FFMPEG} -loglevel info ${CROP_START} -i "left.$$.mov" -vf cropdetect -f null - 2>&1 | awk '/crop/{ print $8, $9, $10, $11; }' | grep -v detect | sed -e "s/[a-z]://g" | awk '{ w+=$1; h+=$2; x+=$3; y+=$4; } END { printf "crop=%d:%d:%d:%d",w/NR,h/NR,x/NR,y/NR; }' )
 
         if [ ${CROP_FAST} -eq 1 ]
         then
@@ -233,7 +233,7 @@ then
             RIGHT_CROP=${LEFT_CROP}
         else
             echo "Calculating right border removal..."
-            RIGHT_CROP=$( ${FFMPEG} -loglevel info ${CROP_START} -i "${RIGHT}.$$.mov" -vf cropdetect -f null - 2>&1 | awk '/crop/{ print $8, $9, $10, $11; }' | grep -v detect | sed -e "s/[a-z]://g" | awk '{ w+=$1; h+=$2; x+=$3; y+=$4; } END { printf "crop=%d:%d:%d:%d",w/NR,h/NR,x/NR,y/NR; }' )
+            RIGHT_CROP=$( ${FFMPEG} -loglevel info ${CROP_START} -i "right.$$.mov" -vf cropdetect -f null - 2>&1 | awk '/crop/{ print $8, $9, $10, $11; }' | grep -v detect | sed -e "s/[a-z]://g" | awk '{ w+=$1; h+=$2; x+=$3; y+=$4; } END { printf "crop=%d:%d:%d:%d",w/NR,h/NR,x/NR,y/NR; }' )
 
             # Sometimes splitting the frames exactly in half does not yield two identical frames,
             # when you trim off the black borders.  The spatial algorithm requires frames to
@@ -267,12 +267,12 @@ then
             echo "No cropping necessary."
         else
             echo "Cropping left eye (${LEFT_CROP})..."
-            ${FFMPEG} -i "${LEFT}.$$.mov" -vf $LEFT_CROP -c:v prores_videotoolbox -profile:v 3 "${LEFT}-cropped.$$.mov"
-            mv "${LEFT}-cropped.$$.mov" "${LEFT}.$$.mov"
+            ${FFMPEG} -i "left.$$.mov" -vf $LEFT_CROP -c:v prores_videotoolbox -profile:v 3 "left-cropped.$$.mov"
+            mv "left-cropped.$$.mov" "left.$$.mov"
 
             echo "Cropping right eye (${RIGHT_CROP})..."
-            ${FFMPEG} -i "${RIGHT}.$$.mov" -vf $RIGHT_CROP -c:v prores_videotoolbox -profile:v 3 "${RIGHT}-cropped.$$.mov"
-            mv "${RIGHT}-cropped.$$.mov" "${RIGHT}.$$.mov"
+            ${FFMPEG} -i "right.$$.mov" -vf $RIGHT_CROP -c:v prores_videotoolbox -profile:v 3 "right-cropped.$$.mov"
+            mv "right-cropped.$$.mov" "right.$$.mov"
         fi
     fi
 fi
@@ -287,13 +287,13 @@ then
     then
         echo -ne ", doubling height of frame"
     fi
-    if [ "${RIGHT}" == "left" ]
+    if [ "right" == "left" ]
     then
         echo " (reversed)..."
     else
         echo "..."
     fi
-    ${FFMPEG} -i "${FILE}" -filter_complex "[0]crop=iw:ih/2:0:0,scale=iw:ih*${SCALE}[left];[0]crop=iw:ih/2:ow:0,scale=iw:ih*${SCALE}[right]" -map "[left]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 ${LEFT}.$$.mov -map "[right]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 ${RIGHT}.$$.mov
+    ${FFMPEG} -i "${FILE}" -filter_complex "[0]crop=iw:ih/2:0:0,scale=iw:ih*${SCALE}[left];[0]crop=iw:ih/2:ow:0,scale=iw:ih*${SCALE}[right]" -map "[left]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 left.$$.mov -map "[right]" -c:v ${PRORES} -profile:v 3 -an -map_chapters -1 right.$$.mov
 
     if [ ${CROP} -eq 1 ]
     then
@@ -304,11 +304,11 @@ then
         # sides are cropped properly.
 
         echo "Calculating left border removal..."
-        LEFT_CROP=$( ${FFMPEG} -loglevel info -i "${LEFT}.$$.mov" -vf cropdetect -f null - 2>&1 | awk '/crop/{ print $8, $9, $10, $11; }' | grep -v detect | sed -e "s/[a-z]://g" | awk '{ w+=$1; h+=$2; x+=$3; y+=$4; } END { printf "crop=%d:%d:%d:%d",w/NR,h/NR,x/NR,y/NR; }' )
+        LEFT_CROP=$( ${FFMPEG} -loglevel info -i "left.$$.mov" -vf cropdetect -f null - 2>&1 | awk '/crop/{ print $8, $9, $10, $11; }' | grep -v detect | sed -e "s/[a-z]://g" | awk '{ w+=$1; h+=$2; x+=$3; y+=$4; } END { printf "crop=%d:%d:%d:%d",w/NR,h/NR,x/NR,y/NR; }' )
 
         echo "Cropping left eye..."
-        ${FFMPEG} -i "${LEFT}.$$.mov" -vf $LEFT_CROP -c:v prores_videotoolbox -profile:v 3 "${LEFT}-cropped.$$.mov"
-        mv "${LEFT}-cropped.$$.mov" "${LEFT}.$$.mov"
+        ${FFMPEG} -i "left.$$.mov" -vf $LEFT_CROP -c:v prores_videotoolbox -profile:v 3 "left-cropped.$$.mov"
+        mv "left-cropped.$$.mov" "left.$$.mov"
 
         if [ ${CROP_FAST} -eq 1 ]
         then
@@ -316,16 +316,23 @@ then
             RIGHT_CROP=${LEFT_CROP}
         else
             echo "Calculating right border removal..."
-            RIGHT_CROP=$( ${FFMPEG} -loglevel info -i "${RIGHT}.$$.mov" -vf cropdetect -f null - 2>&1 | awk '/crop/{ print $8, $9, $10, $11; }' | grep -v detect | sed -e "s/[a-z]://g" | awk '{ w+=$1; h+=$2; x+=$3; y+=$4; } END { printf "crop=%d:%d:%d:%d",w/NR,h/NR,x/NR,y/NR; }' )
+            RIGHT_CROP=$( ${FFMPEG} -loglevel info -i "right.$$.mov" -vf cropdetect -f null - 2>&1 | awk '/crop/{ print $8, $9, $10, $11; }' | grep -v detect | sed -e "s/[a-z]://g" | awk '{ w+=$1; h+=$2; x+=$3; y+=$4; } END { printf "crop=%d:%d:%d:%d",w/NR,h/NR,x/NR,y/NR; }' )
         fi
 
         echo "Cropping right eye..."
-        ${FFMPEG} -i "${RIGHT}.$$.mov" -vf $RIGHT_CROP -c:v prores_videotoolbox -profile:v 3 "${RIGHT}-cropped.$$.mov"
-        mv "${RIGHT}-cropped.$$.mov" "${RIGHT}.$$.mov"
+        ${FFMPEG} -i "right.$$.mov" -vf $RIGHT_CROP -c:v prores_videotoolbox -profile:v 3 "right-cropped.$$.mov"
+        mv "right-cropped.$$.mov" "right.$$.mov"
     fi
 fi
 
 # Extract the audio tracks
+
+
+###############
+
+# @AUDIO EXTRACTION
+
+###############
 
 ffprobe -hide_banner -loglevel quiet -of default=noprint_wrappers=0 -print_format flat -select_streams a -show_entries stream=codec_name,channels,index -i "${FILE}" > audio_tracks.$$
 

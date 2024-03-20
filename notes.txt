@@ -1,0 +1,177 @@
+
+
+
+ffmpeg -y -i stitched_pup_sbs.mp4 -filter_complex "[0]crop=iw/2:ih:0:0[left];[0]crop=iw/2:ih:ow:0[right]" -map "[left]" -map "[right]" -map 0:a output.mp4
+
+
+ffmpeg -i stitched_pup_sbs.mp4 -filter_complex "[0]crop=iw/2:ih:0:0[left];[0]crop=iw/2:ih:ow:0[right]" -map "[left]" -c:v libx264 -crf 18 -preset fast -map 0:a -c:a copy left_output.mp4 -map "[right]" -c:v libx264 -crf 18 -preset fast -map 0:a -c:a copy right_output.mp4
+
+
+
+
+# vision-utils project
+
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/0TNL16FER6/spatial_video.mov':
+  Metadata:
+    major_brand     : qt  
+    minor_version   : 0
+    compatible_brands: qt  
+    creation_time   : 2024-03-13T11:39:55.000000Z
+  Duration: 00:00:07.20, start: 0.000000, bitrate: 1539 kb/s
+  Stream #0:0[0x1](und): Video: hevc (Main) (hvc1 / 0x31637668), yuv420p(tv, bt709), 480x848, 1407 kb/s, 30 fps, 30 tbr, 600 tbn (default)
+    Metadata:
+      creation_time   : 2024-03-13T11:39:55.000000Z
+      handler_name    : Core Media Video
+      vendor_id       : [0][0][0][0]
+      encoder         : HEVC
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 130 kb/s (default)
+    Metadata:
+      creation_time   : 2024-03-13T11:39:55.000000Z
+      handler_name    : Core Media Audio
+      vendor_id       : [0][0][0][0]
+At least one output file must be specified
+
+
+
+# TEST VIDEO 
+
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/test_video.mp4':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: mp42isom
+  Duration: 00:00:07.22, start: 0.000000, bitrate: 1679 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Baseline) (avc1 / 0x31637661), yuv420p(tv, bt709, progressive), 848x480, 1623 kb/s, 30 fps, 30 tbr, 600 tbn (default)
+    Metadata:
+      vendor_id       : [0][0][0][0]
+    Side data:
+      displaymatrix: rotation of -90.00 degrees
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 63 kb/s (default)
+    Metadata:
+      vendor_id       : [0][0][0][0]
+
+
+
+# LINUX GENIUS SCRIPT:
+
+nable-neon
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/1-52-spatial.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 1
+    compatible_brands: isom
+    creation_time   : 2024-03-12T13:36:44.000000Z
+  Duration: 00:02:02.90, start: 0.000000, bitrate: 2230 kb/s
+  Stream #0:0[0x1](und): Video: hevc (Main 10) (hvc1 / 0x31637668), yuv420p10le(tv, bt709), 1280x640, 2097 kb/s, 30 fps, 30 tbr, 600 tbn (default)
+    Metadata:
+      creation_time   : 2024-03-12T13:36:22.000000Z
+      handler_name    : ?Core Media Video
+      vendor_id       : [0][0][0][0]
+      encoder         : HEVC
+  Stream #0:1[0x2]: Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 128 kb/s (default)
+    Metadata:
+      handler_name    : >ISO Media file produced by Google Inc. Created on: 12/14/2022.
+      vendor_id       : [0][0][0][0]
+
+
+
+
+# MIT REALITY (REAL SPATIAL VIDEO)
+
+  libavutil      58. 29.100 / 58. 29.100
+  libavcodec     60. 31.102 / 60. 31.102
+  libavformat    60. 16.100 / 60. 16.100
+  libavdevice    60.  3.100 / 60.  3.100
+  libavfilter     9. 12.100 /  9. 12.100
+  libswscale      7.  5.100 /  7.  5.100
+  libswresample   4. 12.100 /  4. 12.100
+  libpostproc    57.  3.100 / 57.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/mit-reality-hack-spatial-clip1.mov':
+  Metadata:
+    major_brand     : qt  
+    minor_version   : 0
+    compatible_brands: qt  
+    creation_time   : 2024-01-28T19:30:13.000000Z
+    com.apple.quicktime.location.accuracy.horizontal: 35.000000
+    com.apple.quicktime.spatial.format-version: 1.0
+    com.apple.quicktime.spatial.aggressors-seen: 1
+    com.apple.quicktime.location.ISO6709: +42.3604-071.0874+025.485/
+    com.apple.quicktime.make: Apple
+    com.apple.quicktime.model: iPhone 15 Pro Max
+    com.apple.quicktime.software: 17.2.1
+    com.apple.quicktime.creationdate: 2024-01-28T14:30:13-0500
+  Duration: 00:00:53.31, start: 0.000000, bitrate: 15734 kb/s
+  Stream #0:0[0x1](und): Video: hevc (Main) (hvc1 / 0x31637668), yuv420p(tv, bt709), 1920x1080, 15410 kb/s, 30 fps, 30 tbr, 600 tbn (default)
+    Metadata:
+      creation_time   : 2024-01-28T19:30:13.000000Z
+      handler_name    : Core Media Video
+      vendor_id       : [0][0][0][0]
+      encoder         : HEVC
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 185 kb/s (default)
+    Metadata:
+      creation_time   : 2024-01-28T19:30:13.000000Z
+      handler_name    : Core Media Audio
+      vendor_id       : [0][0][0][0]
+  Stream #0:2[0x3](und): Data: none (mebx / 0x7862656D), 0 kb/s (default)
+    Metadata:
+      creation_time   : 2024-01-28T19:30:13.000000Z
+      handler_name    : Core Media Metadata
+  Stream #0:3[0x4](und): Data: none (mebx / 0x7862656D), 65 kb/s (default)
+    Metadata:
+      creation_time   : 2024-01-28T19:30:13.000000Z
+      handler_name    : Core Media Metadata
+  Stream #0:4[0x5](und): Data: none (mebx / 0x7862656D), 55 kb/s (default)
+    Metadata:
+      creation_time   : 2024-01-28T19:30:13.000000Z
+      handler_name    : Core Media Metadata
+
+
+
+
+
+
+OVERVIEW: Merge two video files into a single MV-HEVC file.
+
+USAGE: spatial-media-kit-tool merge [--debug] --left-file <left-file> --right-file <right-file> --quality <quality> [--left-is-primary] [--right-is-primary] --horizontal-field-of-view <horizontal-field-of-view> [--horizontal-disparity-adjustment <horizontal-disparity-adjustment>] --output-file <output-file>
+
+OPTIONS:
+  --debug                 Optional. Pause execution at start to allow for time to attach a debugger.
+  -l, --left-file <left-file>
+                          The left eye media file to merge.
+  -r, --right-file <right-file>
+                          The right eye media file to merge.
+  -q, --quality <quality> Output video quality [0-100]. 50 is a good default value.
+  --left-is-primary       Set the left file as the "hero" stream that is displayed when viewing in 2D.
+  --right-is-primary      Set the right file as the "hero" stream that is displayed when viewing in 2D.
+  --horizontal-field-of-view <horizontal-field-of-view>
+                          The field of view of the output video, in degrees. Output will be rounded to the nearest thousandth of a degree. 90.000 is a good default value.
+  --horizontal-disparity-adjustment <horizontal-disparity-adjustment>
+                          Optional. The horizontal disparity adjustment. The value is a 32-bit integer, measured over the range of -10000 to 10000. Only specify a disparity adjustment, including 0, when you know the specific value.
+  -o, --output-file <output-file>
+                          The output file to write to. Expects a .MOV extension.
+  --version               Show the version.
+  -h, --help              Show help information.

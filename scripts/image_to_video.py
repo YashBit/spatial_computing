@@ -25,7 +25,7 @@ def extract_frame_number(filename):
 def images_to_video(image_folder, output_video_path, fps):
     # Get the list of image files in the folder
     image_files = [f for f in os.listdir(image_folder) if f.endswith('.jpg')]
-    
+    print(f"Length of Image Files : {len(image_files)}")
     # Sort image files based on the numeric part of their filenames
     image_files.sort(key=lambda x: extract_frame_number(x))
 
@@ -50,16 +50,16 @@ def images_to_video(image_folder, output_video_path, fps):
 
 
 # Path to the original MP4 video
-original_video_path = "/Users/yashbharti/Desktop/Engineering/core_projects/spatio_Dev/spatial_computing/scripts/original_video.mp4"
+original_video_path = "/Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/original_video.mp4"
 
 # Determine the FPS of the original video
 fps = get_video_fps(original_video_path)
 
 # Path to the folder containing modified frames
-modified_frames_folder = "/Users/yashbharti/Desktop/Engineering/core_projects/spatio_Dev/spatial_computing/scripts/join_images_100_dev"
+modified_frames_folder = "/Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/above_below"
 
 # Output video path for stitched frames
-output_video_path = "stitched_pup_5.mp4"
+output_video_path = "/Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/z_pup.mp4"
 
 # Convert modified frames to video with the same FPS as original video
 images_to_video(modified_frames_folder, output_video_path, fps)
