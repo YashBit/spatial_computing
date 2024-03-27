@@ -1,0 +1,3 @@
+[submodule "scripts/spm_cli/vision-utils"]
+	path = scripts/spm_cli/vision-utils
+	url = https://github.com/studiolanes/vision-utils.git
