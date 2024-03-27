@@ -27,7 +27,8 @@ class Image2Handler(FileMixin):
 
     def depth_image_filename(self):
         return f"{self.get_directory_name()}/depth_image.jpg"
-
+    def sbs_image_filename(self):
+        return f"{self.get_directory_name()}/"+ "_" +str(self.file_number) + "_sbs.png"
     def left_image_filename(self):
 
         return f"{self.get_directory_name()}/"+ "_" +str(self.file_number) + "stereo_left.png"
@@ -46,6 +47,28 @@ class Image2Handler(FileMixin):
         possible models, e.g. "LiheYoung/depth-anything-small-hf"
         """
         pass
+    
+    def create_sbs_image(self):
+    # Read the left and right images
+        left_image = cv2.imread(self.left_image_filename())
+        right_image = cv2.imread(self.right_image_filename())
+
+        # Check if images are loaded successfully
+        if left_image is None or right_image is None:
+            print("Error: Could not read images")
+            return
+
+        # # Resize images to the target height
+        # left_image = cv2.resize(left_image, (int(left_image.shape[1] * target_height / left_image.shape[0]), target_height))
+        # right_image = cv2.resize(right_image, (int(right_image.shape[1] * target_height / right_image.shape[0]), target_height))
+
+        # Concatenate images horizontally (side-by-side)
+        sbs_image = cv2.hconcat([left_image, right_image])
+
+        # Save the SBS image
+        cv2.imwrite(self.sbs_image_filename(), sbs_image)
+
+        print(f"SBS image saved to: {self.sbs_image_filename()}")
 
     def shift_image(self, depth_image, shifted_image_filename, shift_amount=10):
         """
@@ -126,5 +149,7 @@ class Image2Handler(FileMixin):
         # right image
         self.shift_image(depth_image, self.right_image_filename(), 50)
         self.inpaint_image(self.right_image_filename())
+        
+        self.create_sbs_image()
 
     

@@ -1,0 +1,19 @@
+
+1. Get the pipeline working:
+
+
+a. Check the depth file  - it is shitter 
+b. Take the pipeline of the vision-utils to create SBS images
+c. Keep the same process but replace the depth file 
+
+2. Pipeline to convert to spatial 
+
+a. Use the spatial media kit. 
+b. Scripts to automate the process
+c. Script to install the conda env and everythingyou need
+3. Automate and test the pipeline on gradient 
+4. Push to github 
+5. Learn how to deploy it on docker
+6. EC2 Instance prep - first run the docker image on gradient
+7. How to run the docker image on a cloud service end to end with storage
+8. Begin working on the MERN stack app. 
