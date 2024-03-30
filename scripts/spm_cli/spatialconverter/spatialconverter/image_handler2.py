@@ -28,7 +28,7 @@ class Image2Handler(FileMixin):
     def depth_image_filename(self):
         return f"{self.get_directory_name()}/depth_image.jpg"
     def sbs_image_filename(self):
-        return f"{self.get_directory_name()}/"+ "_" +str(self.file_number) + "_sbs.png"
+        return f"spatial_computing/scripts/video_information/sbs_frames/"+ "_" +str(self.file_number) + "_sbs.png"
     def left_image_filename(self):
 
         return f"{self.get_directory_name()}/"+ "_" +str(self.file_number) + "stereo_left.png"
