@@ -62,14 +62,22 @@ fi
 echo "Beginning SBS Frame Creation"
 python /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/spm_cli/spatialconverter/spatialconverter/main.py --photo_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/frames --depth_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/depth  
 # Your SBS frame creation logic goes he
-echo "SBS Frame Extraction Complete"
 
+##########
+
+# @@@@@@ MAKE SURE DOCKER IMAGE HAS POETRY INSTALLED
+
+##########
+
+echo "SBS Frame Extraction Complete"
+poetry run python /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/spm_cli/spatialconverter/spatialconverter/main.py --photo_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/frames --depth_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/depth
 echo "Stitching SBS Frame Video"
 if [ $? -ne 0 ]; then
     echo "Error encountered during stitching SBS frame video."
     exit 1
 fi
-echo "SBS Video Completed"
+echo "SBS Video Complete"
+
 
 echo "Beginning Spatial Video Conversion"
 if [ $? -ne 0 ]; then
