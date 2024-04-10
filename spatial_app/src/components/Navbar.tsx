@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Navbar(){
     return (
-        <nav>
+        <nav className = "bg-gradient-to-l from-[#9B2929] to-[#383E78]">
           <ul>
             <li>
               <Link href="/">
@@ -15,8 +15,8 @@ export default function Navbar(){
               </Link>
             </li>
             <li>
-              <Link href="/get_started">
-              <div className="link">Get Started</div>
+              <Link href="/convert_now">
+              <div className="link">Convert Now</div>
               </Link>
             </li>
             <li>
