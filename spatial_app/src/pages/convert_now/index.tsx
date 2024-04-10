@@ -10,6 +10,7 @@
 
 import Head from "next/head";
 import Link from "next/link";
+import ProfileForm from '../../components/my_form';
 
 export default function convert_now() {
   return (
@@ -20,7 +21,7 @@ export default function convert_now() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main  className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-[#9B2929] to-[#383E78]">
-        
+        <ProfileForm></ProfileForm>
       </main>
     </>
   );

@@ -1,19 +1,13 @@
 import Head from "next/head";
 import Link from "next/link";
-import Navbar from '../components/Navbar';
-import { Button } from "../components/ui/button"
 
 const handleClick = () => {
   console.log("Button Clicked")
 };
 
-export default function Home() {
+export default function About() {
   // Debugging statement to ensure the component renders
   console.log("Home component rendered");
-
-  const handleClick = () => {
-    console.log("Button Clicked");
-  };
 
   return (
     <>
@@ -24,7 +18,7 @@ export default function Home() {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-[#9B2929] to-[#383E78]">
         {/* Debugging statement to ensure the Button component renders */}
-        <h1>Hi</h1>
+      <h1>About Copy</h1>
       </main>
     </>
   );
