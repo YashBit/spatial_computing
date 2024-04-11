@@ -4,7 +4,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
 import { Button } from "./ui/button"
 import {
   Form,
@@ -16,12 +15,11 @@ import {
   FormMessage,
 } from "./ui/form"
 import { Input } from "./ui/input"
+import {useState} from 'react';
+import {useRouter} from 'next/router';
+import {uploadFileToS3} from '../server/services/s3Service';
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
+
 
 const schema = z.object({
   name: z.string().min(2).max(50),
@@ -29,7 +27,9 @@ const schema = z.object({
   video: z.string(), // This might need to be adjusted based on the type of video data you're expecting
 });
 
-export default function ProfileForm(){
+
+export default function ProfileForm() {
+  const router = useRouter();
   const form = useForm({
     resolver: async (data) => {
       try {
@@ -41,10 +41,27 @@ export default function ProfileForm(){
     }
   });
 
-  const onSubmit = (data) => {
-    console.log(data); // Handle form submission data here
-  };
+  const onSubmit = async (data) => {
+    try {
+      // Validate form data against schema
+      const validatedData = schema.parse(data);
 
+      // Upload video file to S3 bucket
+      const file = data.video[0];
+      const bucketName = "spatialapp"; // Replace with your bucket name
+      const folderName = "user_data/"; // Replace with the desired folder name
+      const fileUrl = await uploadFileToS3(file, bucketName, folderName);
+
+      // Handle form submission data here (e.g., send data to backend API)
+      console.log("Uploaded video URL:", fileUrl);
+
+      // Redirect to success page or another route
+      router.push("/success");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
+  
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -89,7 +106,7 @@ export default function ProfileForm(){
               <FormMessage />
             </FormItem>
           )}
-        />  
+        />
 
         <Button type="submit">Submit</Button>
       </form>

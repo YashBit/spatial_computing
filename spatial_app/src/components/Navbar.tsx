@@ -1,5 +1,7 @@
 import Link from 'next/link';
-
+import {useState} from 'react';
+import axios from 'axios';
+import {useRouter} from 'next/router';
 /*
   REMOVE THE HOME BUTTON 
   IT SHOULD BE REPLACED WITH THE ICON ON THE LEFT 
