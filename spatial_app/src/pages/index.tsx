@@ -20,7 +20,7 @@ export default function Home() {
     const interval = setInterval(()=>{
       setIndex((prevIndex) => (prevIndex + 1) % valuePropositions.length);
 
-    }, 5000);
+    }, 2950);
     return () => clearInterval(interval);
   }, [valuePropositions.length]);
   return (
@@ -32,7 +32,7 @@ export default function Home() {
       </Head>
       <main className="flex flex-col items-center justify-center bg-gradient-to-l from-[#9B2929] to-[#383E78]">
         <section className="h-screen flex flex-col items-center justify-center">
-        <h1>{valuePropositions[index]}</h1>
+          <h1>{valuePropositions[index]}</h1>
           {/* You can add more content here */}
         </section>
         <section className="h-screen flex flex-col items-center justify-center">

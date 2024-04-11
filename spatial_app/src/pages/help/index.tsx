@@ -8,7 +8,7 @@ const handleClick = () => {
 export default function About() {
   // Debugging statement to ensure the component renders
   console.log("Home component rendered");
-
+  
   return (
     <>
       <Head>
