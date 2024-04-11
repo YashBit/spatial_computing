@@ -10,7 +10,8 @@
 
 import Head from "next/head";
 import Link from "next/link";
-import ProfileForm from '../../components/my_form';
+import {ProfileForm2} from '../../components/username_form';
+import {ProfileForm} from '../../components/my_form';
 
 export default function convert_now() {
   return (
