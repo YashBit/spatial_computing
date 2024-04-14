@@ -2,8 +2,9 @@ import AWS from 'aws-sdk';
 import {Readable} from 'stream';
 
 AWS.config.update({
-    
-    region: "Asia Pacific (Seoul) ap-northeast-2"
+  accessKeyId: "AKIAW3MEFEOIKVOHY4AK",
+  secretAccessKey:"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",
+  region: "Asia Pacific (Seoul) ap-northeast-2"
 })
 
 const s3 = new AWS.S3();

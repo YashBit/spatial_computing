@@ -14,7 +14,7 @@ import {useRouter} from 'next/router';
 
 export default function Navbar(){
     return (
-        <nav className="bg-gradient-to-l from-[#9B2929] to-[#383E78]">
+        <nav className="">
           <ul className="flex justify-end pr-6 py-3"> 
             <li>
               <Link href="/">
