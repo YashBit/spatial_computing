@@ -20,11 +20,11 @@ import {
 export function ProfileForm() {
   // Images
   const MAX_IMAGE_SIZE = 31457280; // 5 MB
-  const ALLOWED_IMAGE_TYPES = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-    "image/jpg",
+  const ALLOWED_VIDEO_TYPES = [
+    "video/mov",
+    "video/mp4",
+    "video/avi",
+    "video/*",
   ];
 
   // Form Schema Validation
@@ -33,7 +33,7 @@ export function ProfileForm() {
         message: "Name must be at least 2 characters.",
     }),
     email: z.string().email(),
-    images: z
+    videos: z
       .custom<FileList>((val) => val instanceof FileList, "Required")
       .refine((files) => files.length > 0, `Required`)      .refine(
         (files) =>
@@ -43,9 +43,9 @@ export function ProfileForm() {
       .refine(
         (files) =>
           Array.from(files).every((file) =>
-            ALLOWED_IMAGE_TYPES.includes(file.type)
+            ALLOWED_VIDEO_TYPES.includes(file.type)
           ),
-        "Only these types are allowed .jpg, .jpeg, .png and .webp"
+        "Only these types are allowed .mov, .avi, .mp4"
       ),
   });
 
@@ -99,19 +99,19 @@ export function ProfileForm() {
           {/* Images */}
           <FormField
             control={form.control}
-            name="images"
+            name="videos"
             render={({ field: { onChange }, ...field }) => {
               // Get current images value (always watched updated)
-              const images = form.watch("images");
+              const videos = form.watch("videos");
 
               return (
                 <FormItem>
-                  <FormLabel>Images</FormLabel>
+                  <FormLabel>Videos</FormLabel>
                   {/* File Upload */}
                   <FormControl>
                     <Input
                       type="file"
-                      accept="image/*"
+                      accept="video/*"
                       multiple={true}
                       disabled={form.formState.isSubmitting}
                       {...field}
@@ -121,15 +121,15 @@ export function ProfileForm() {
                         const dataTransfer = new DataTransfer();
 
                         // Add old images
-                        if (images) {
-                          Array.from(images).forEach((image) =>
-                            dataTransfer.items.add(image)
+                        if (videos) {
+                          Array.from(images).forEach((video) =>
+                            dataTransfer.items.add(video)
                           );
                         }
 
                         // Add newly uploaded images
-                        Array.from(event.target.files!).forEach((image) =>
-                          dataTransfer.items.add(image)
+                        Array.from(event.target.files!).forEach((videos) =>
+                          dataTransfer.items.add(videos)
                         );
 
                         // Validate and update uploaded file
