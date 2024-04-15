@@ -23,6 +23,8 @@
     "plugins": [{ "name": "next" }],
     "incremental": true,
 
+    "types": ["node", "express", "multer"],
+
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {

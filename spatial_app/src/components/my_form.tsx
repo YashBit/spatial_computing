@@ -16,10 +16,14 @@ import {
   FormMessage,
   FormDescription
 } from "../components/ui/form";
+import {uploadFileToS3} from "../server/services/s3Service"
+import { useRouter } from 'next/router';
+
+
 
 export function ProfileForm() {
   // Images
-  const MAX_IMAGE_SIZE = 31457280; // 5 MB
+  const MAX_IMAGE_SIZE = 31457280; // 30 MB
   const ALLOWED_VIDEO_TYPES = [
     "video/mov",
     "video/mp4",
@@ -53,11 +57,32 @@ export function ProfileForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
+  const router = useRouter();
 
   // Form Submit Handler (After validated with zod)
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Log values
-    console.log(values);
+    // console.log(values);
+    try{
+      const videos = values["videos"];
+      const email = values["email"];
+      const name = values["name"];
+      const bucketName = "spatialapp";
+      const folderName = "user_data/";
+      console.log(values);
+      const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
+
+      // Handle form submission data here (e.g., send data to backend API)
+      console.log("Uploaded file URL:", fileUrl);
+
+      // Redirect to success page or another route
+
+      // REDIRECT TO STRIPE PAYMENT -> 
+      router.push("convert_now/success");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+
   };
 
   return (
