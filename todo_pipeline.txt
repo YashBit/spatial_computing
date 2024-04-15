@@ -1,19 +1,23 @@
 
-1. Get the pipeline working:
+FINISH PIPELINE:
+1. DONE: Upload Video (Checks)
+2. DONE: Download Video 
+3. api -> python with image, python returns a task ID, Api returns task ID to frontend, frontend polls task status
+    3.a Check APIs 
+    3.b GPU usage 
+    3.c Scripts 
+    3.d Queue and Loadbalancer 
+4. Email final result 
+5. Add Payment Portal and Calculation to the FORM 
+
+<<<<<<<<<<<< ********************* >>>>>>>>>>>>
 
 
-a. Check the depth file  - it is shitter 
-b. Take the pipeline of the vision-utils to create SBS images
-c. Keep the same process but replace the depth file 
+6. Better UI 
+    6.a COPY modal.com format 
+    6.b Make it better 
+    6.c Give multiple upload options, url/local
+    6.d Give batch conversion options
+7. EC2, Dockerisation, Domain Purchase, User Analytics
 
-2. Pipeline to convert to spatial 
-
-a. Use the spatial media kit. 
-b. Scripts to automate the process
-c. Script to install the conda env and everythingyou need
-3. Automate and test the pipeline on gradient 
-4. Push to github 
-5. Learn how to deploy it on docker
-6. EC2 Instance prep - first run the docker image on gradient
-7. How to run the docker image on a cloud service end to end with storage
-8. Begin working on the MERN stack app. 
+8. Marketing, Copy and Distribution 

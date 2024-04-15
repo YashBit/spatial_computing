@@ -10,7 +10,8 @@
 
 import Head from "next/head";
 import Link from "next/link";
-import ProfileForm from '../../components/my_form';
+import {ProfileForm2} from '../../components/username_form';
+import {ProfileForm} from '../../components/my_form';
 
 export default function convert_now() {
   return (
@@ -20,8 +21,11 @@ export default function convert_now() {
         <meta name="description" content="Convert any 2D Video to a Spatial Video"/>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main  className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-[#9B2929] to-[#383E78]">
-        <ProfileForm></ProfileForm>
+      <main className="flex min-h-screen">
+        <div className="absolute top-80 left-60"> {/* Adjust top and left as needed */}
+          <ProfileForm /> {/* Render your ProfileForm component here */}
+        </div>
+      
       </main>
     </>
   );

@@ -16,7 +16,7 @@ export default function About() {
         <meta name="description" content="Convert any 2D Video to a Spatial Video"/>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-l from-[#9B2929] to-[#383E78]">
+      <main className="flex min-h-screen flex-col items-center justify-center ">
         {/* Debugging statement to ensure the Button component renders */}
       <h1>About Copy</h1>
       </main>
