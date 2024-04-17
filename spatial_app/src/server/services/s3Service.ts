@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 import {Readable} from 'stream';
+import multer, { FileFilterCallback } from "multer";
 
 AWS.config.update({
   accessKeyId: "AKIAW3MEFEOIKVOHY4AK",
@@ -16,25 +17,38 @@ export const uploadFileToS3 = async (file: Express.Multer.File, email: string, n
   // const fileStream = Readable.from(file.buffer);
   console.log("In S3")
 
-  const metadata: FileMetadata = {
+  const metadata: { [key: string]: string } = { // Define metadata with a string index signature
     email,
     name
   };
+  const file2 = file[0];
 
-  const uploadParams = {
-    Bucket: bucketName,
-    Key: `${folderName}/${file.originalname}`,
-    Body: file,
-    ContentType: file.mimetype,
-    Metadata: metadata // Pass metadata as part of the upload parameters
-  };
-
-  console.log("In S3 META");
-  
-
+  const fileReader = new FileReader();
+  const readFilePromise = new Promise((resolve, reject) => {
+    fileReader.onload = () => {
+      // Resolve with the file content when reading is complete
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = reject;
+  });
+  fileReader.readAsArrayBuffer(file2);
+  // console.log("File MIMETYPE")
+  // console.log(file2.type)
   try {
+    await readFilePromise;
+    const fileContent = fileReader.result as ArrayBuffer;
+    console.log("FILE CONTENT")
+    console.log(fileContent)
+    const uploadParams = {
+      Bucket: bucketName,
+      Key: `${folderName}${file2.name}`,
+      Body: fileContent, 
+      ContentType: file2.type, 
+      Metadata: { email, name }, 
+    };
+
     const data = await s3.upload(uploadParams).promise();
-    return data.Location; // Return the URL of the uploaded file
+    return data.Location;
   } catch (error) {
     console.error('Error uploading file to S3:', error);
     throw new Error('Failed to upload file to S3');

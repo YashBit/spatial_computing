@@ -20,4 +20,12 @@ FINISH PIPELINE:
     6.d Give batch conversion options
 7. EC2, Dockerisation, Domain Purchase, User Analytics
 
+LIST OF ALL ENV CHAINS:
+1. CONDA ENV -> cv2
+2. npm
+3. MiDaS Env 
+4. Poetry ENV 
+5. FastAPI Server 
+
+
 8. Marketing, Copy and Distribution 
