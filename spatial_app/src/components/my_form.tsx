@@ -16,8 +16,22 @@ import {
   FormMessage,
   FormDescription
 } from "../components/ui/form";
-import {uploadFileToS3} from "../server/services/s3Service"
+import {uploadFileToS3} from "../server/services/s3Upload"
 import { useRouter } from 'next/router';
+
+
+/*
+
+
+  1. Form Submit
+  2. Stripe Payment
+  3. Only when Stripe Payment is successful
+  4. Allow for 
+
+
+
+
+*/
 
 
 

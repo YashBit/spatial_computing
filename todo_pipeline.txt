@@ -19,6 +19,9 @@ FINISH PIPELINE:
     6.c Give multiple upload options, url/local
     6.d Give batch conversion options
 7. EC2, Dockerisation, Domain Purchase, User Analytics
+    1. REPLACE LAMBDA FUNCTION NGROK LINKS WITH HOSTING LINKS
+    2. CHECK, THERE WILL BE JUST A URL CHANGE
+
 
 LIST OF ALL ENV CHAINS:
 1. CONDA ENV -> cv2
