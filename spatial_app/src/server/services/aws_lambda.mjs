@@ -1,29 +1,19 @@
-/*
-
-    JUST TAKING A NOTE OF THE AWS LAMBDA FUNCTION
-
-
-*/
-
 import * as https from 'node:https';
 
-/**
- * Pass the data to send as `event.data`, and the request options as
- * `event.options`. For more information see the HTTPS module documentation
- * at https://nodejs.org/api/https.html.
- *
- * Will succeed with the response body.
- */
 export const handler = (event, context, callback) => {
     // Replace 'your-ngrok-url' with your actual ngrok URL
-    const ngrokUrl = '7a5b-182-69-181-80.ngrok-free.app';
+    const ngrokUrl = 'https://7a5b-182-69-181-80.ngrok-free.app';
+    const path = '/api/lambda-trigger.ts'; // Specify the path of your API endpoint
+    
+    const postData = JSON.stringify({}); // Add any data you want to send in the POST request
     
     const options = {
-        method: 'GET',
+        method: 'POST',
         hostname: ngrokUrl,
-        path: '/',
+        path: path,
         headers: {
             'Content-Type': 'application/json',
+            'Content-Length': postData.length,
         },
     };
 
@@ -44,5 +34,6 @@ export const handler = (event, context, callback) => {
     });
     
     req.on('error', callback);
+    req.write(postData);
     req.end();
 };
