@@ -2,8 +2,8 @@ import * as https from 'node:https';
 
 export const handler = (event, context, callback) => {
     // Replace 'your-ngrok-url' with your actual ngrok URL
-    const ngrokUrl = 'https://7a5b-182-69-181-80.ngrok-free.app';
-    const path = '/api/lambda-trigger.ts'; // Specify the path of your API endpoint
+    const ngrokUrl = '7a5b-182-69-181-80.ngrok-free.app';
+    const path = '/api/email-trigger'; // Specify the path of your API endpoint
     
     const postData = JSON.stringify({}); // Add any data you want to send in the POST request
     
