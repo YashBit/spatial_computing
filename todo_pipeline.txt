@@ -10,6 +10,8 @@ FINISH PIPELINE:
 4. Email final result 
 5. Add Payment Portal and Calculation to the FORM 
 
+STRIPE PAYMENT INFORMATION STORAGE
+
 npx ngrox http 3000
 <<<<<<<<<<<< ********************* >>>>>>>>>>>>
 
