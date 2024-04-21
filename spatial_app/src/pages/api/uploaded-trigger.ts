@@ -2,16 +2,28 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import sqlite3 from 'sqlite3';
 
 // Open a database connection
-const db = new sqlite3.Database('yourdatabase.db');
+const db = new sqlite3.Database('job_order.db');
+
+// Define a flag to track whether table creation has been performed
+let isTableCreated = false;
 
 // Define a function to create your table if it doesn't exist
 function createTable() {
-    db.run(`CREATE TABLE IF NOT EXISTS MyTable (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        bucketName TEXT,
-        objectKey TEXT,
-        eventType TEXT
-    )`);
+    if (!isTableCreated) {
+        db.run(`CREATE TABLE IF NOT EXISTS MyTable (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            bucketName TEXT,
+            objectKey TEXT,
+            eventType TEXT
+        )`, (err) => {
+            if (err) {
+                console.error('Error creating table:', err.message);
+            } else {
+                console.log('Table created successfully');
+            }
+        });
+        isTableCreated = true; // Set the flag to true after table creation
+    }
 }
 
 // Function to insert data into the database
@@ -36,7 +48,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
             // Insert the received data into the database
             insertData(bucketName, objectKey, eventType);
-
+            console.log("Inserted Data")
             // Send response
             res.status(200).json({ message: 'Data inserted successfully' });
         } catch (error) {
