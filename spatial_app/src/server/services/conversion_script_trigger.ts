@@ -1,9 +1,9 @@
-import { sqlite3 } from "sqlite3";
+import sqlite3 from 'sqlite3';
 import axios from "axios";
-
+import { downloadVideo } from './s3Download';
 // Open Database
 
-const db = new sqlite3.Database('job_order.db');
+const db = new sqlite3.Database('databases/job_order.db');
 
 function getOldestJobOrder() {
   return new Promise((resolve, reject) => {
@@ -37,6 +37,9 @@ async function triggerConversionProcess() {
           return;
       }
       console.log(jobOrder)
+    //   downloadVideo(jobOrder.bucketName, jobOrder.objectKey, "/temp_video_storage")
+      // Download the file information in local directory
+
       // Trigger the conversion process using the FastAPI endpoint
       // const response = await axios.post('http://localhost:8000/convert-video/', jobOrder);
       // console.log(response.data);
@@ -48,4 +51,4 @@ async function triggerConversionProcess() {
   }
 }
 
-setInterval(triggerConversionProcess, 5000); // Check for new job orders every 5 seconds
+// setInterval(triggerConversionProcess, 5000); // Check for new job orders every 5 seconds
