@@ -12,10 +12,13 @@ FINISH PIPELINE:
 
 STRIPE PAYMENT INFORMATION STORAGE
 
-npx ngrox http 3000
+npx ngrok http 3000
+uvicorn main:app --reload
+need to run:
+
 <<<<<<<<<<<< ********************* >>>>>>>>>>>>
 
-
+5B. Sentry for Error Management
 6. Better UI 
     6.a COPY modal.com format 
     6.b Make it better 

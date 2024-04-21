@@ -36,13 +36,13 @@ async function triggerConversionProcess() {
           console.log('No pending job orders.');
           return;
       }
-      
+      console.log(jobOrder)
       // Trigger the conversion process using the FastAPI endpoint
-      const response = await axios.post('http://localhost:8000/convert-video/', jobOrder);
-      console.log(response.data);
+      // const response = await axios.post('http://localhost:8000/convert-video/', jobOrder);
+      // console.log(response.data);
 
       // Delete the processed job order from the database
-      await deleteJobOrder(jobOrder.id);
+      // await deleteJobOrder(jobOrder.id);
   } catch (error) {
       console.error('Error processing job order:', error);
   }
