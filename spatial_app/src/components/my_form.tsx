@@ -37,7 +37,7 @@ import { useRouter } from 'next/router';
 
 export function ProfileForm() {
   // Images
-  const MAX_IMAGE_SIZE = 31457280; // 30 MB
+  const MAX_IMAGE_SIZE = 2147483648; // 2 GB in bytes
   const ALLOWED_VIDEO_TYPES = [
     "video/mov",
     "video/mp4",
@@ -56,7 +56,7 @@ export function ProfileForm() {
       .refine((files) => files.length > 0, `Required`)      .refine(
         (files) =>
           Array.from(files).every((file) => file.size <= MAX_IMAGE_SIZE),
-        `Less than 30MB please.`
+        `Less than 2GB please.`
       )
       .refine(
         (files) =>
