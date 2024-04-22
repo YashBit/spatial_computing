@@ -1,8 +1,10 @@
 import sqlite3 from 'sqlite3';
-import axios from "axios";
+import axios, { AxiosResponse } from 'axios';
 import { downloadVideo } from './src/server/services/s3Download';
 import { uploadFileToS3 } from './src/server/services/s3Upload';
 // Open Database
+import FormData from 'form-data';
+import fs from 'fs';
 
 const db = new sqlite3.Database('job_order.db');
 
@@ -50,9 +52,22 @@ async function triggerConversionProcess() {
       }
       console.log("Job Order Seen")
       console.log(jobOrder)
-      downloadVideo(jobOrder.bucketName, jobOrder.objectKey, "tmp")
-      // Download the file information in local directory
-
+      const object_metaData = await downloadVideo(jobOrder.bucketName, jobOrder.objectKey, "tmp")
+      if (object_metaData) {
+        // Create FormData object to send file data
+        const formData = new FormData();
+        formData.append('file', fs.createReadStream('tmp')); // Assuming 'tmp' is the downloaded file
+  
+        // Hit the FastAPI endpoint with the file data as input
+        const response: AxiosResponse<{ message: string }> = await axios.post('http://localhost:8000/convert-video/', formData, {
+          headers: {
+            ...formData.getHeaders(), // Include headers required for file upload
+            'Content-Type': 'multipart/form-data', // Ensure correct content type
+          },
+        });
+  
+        console.log('Conversion process triggered:', response.data.message);
+      }
       // Trigger the conversion process using the FastAPI endpoint
       // const response = await axios.post('http://localhost:8000/convert-video/', jobOrder);
       // console.log(response.data);
