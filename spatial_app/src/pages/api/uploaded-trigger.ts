@@ -50,7 +50,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             insertData(bucketName, objectKey, eventType);
             console.log("Inserted Data")
             // Send response
-            res.status(200).json({ message: 'Data inserted successfully' });
+            res.status(200).json({ message: 'Video Data Updated in SQL Table' });
         } catch (error) {
             console.error('Error processing request:', error);
             res.status(500).json({ error: 'Internal server error' });
