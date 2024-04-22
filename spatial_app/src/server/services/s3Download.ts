@@ -10,7 +10,7 @@
 
 import * as fs from 'fs';
 import AWS from 'aws-sdk';
-
+import * as path from 'path';
 // Configure AWS credentials
 
 AWS.config.update({
@@ -21,26 +21,25 @@ AWS.config.update({
 
 // Create an instance of the S3 service
 const s3 = new AWS.S3();
-
-// Function to download a video file from S3
-export const  downloadVideo = async (bucketName: string, objectKey: string, localFilePath: string): Promise<void> => {
-  return new Promise<void>((resolve, reject) => {
-    const fileStream = fs.createWriteStream(localFilePath);
-    const params: AWS.S3.GetObjectRequest = {
+export const downloadVideo = async (bucketName: string, objectKey: string, localFilePath: string): Promise<Buffer | undefined> => {
+  const filename = 'video.mp4'; // You can replace this with a dynamic filename if needed
+  const uniqueFilePath = path.join(localFilePath, filename);
+  const params: AWS.S3.GetObjectRequest = {
       Bucket: bucketName,
       Key: objectKey
-    };
-    console.log("Here");
-    // Perform the getObject operation
-    s3.getObject(params)
-      .on('httpData', function(chunk: any) {
-        fileStream.write(chunk); // Write each chunk of data to the local file
-      })
-      .on('httpDone', function() {
-        fileStream.end(); // Close the file stream when download is complete
-        console.log('Video downloaded successfully to:', localFilePath);
-        resolve();
-      })
-      .send();
-  });
-}
+  };
+
+  try {
+      const data = await s3.getObject(params).promise();
+
+      if (data.Body) {
+          const bodyBuffer: Buffer = data.Body as Buffer;
+          await fs.promises.writeFile(uniqueFilePath, bodyBuffer);
+          console.log(`File downloaded successfully to: ${uniqueFilePath}`);
+          return bodyBuffer;
+      }
+  } catch (error) {
+      console.error(`Error downloading file: ${error}`);
+  }
+};
+

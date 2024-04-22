@@ -1,9 +1,10 @@
 import sqlite3 from 'sqlite3';
 import axios from "axios";
-import { downloadVideo } from './s3Download';
+import { downloadVideo } from './src/server/services/s3Download';
+import { uploadFileToS3 } from './src/server/services/s3Upload';
 // Open Database
 
-const db = new sqlite3.Database('databases/job_order.db');
+const db = new sqlite3.Database('job_order.db');
 
 function getOldestJobOrder() {
   return new Promise((resolve, reject) => {
@@ -17,18 +18,29 @@ function getOldestJobOrder() {
   });
 }
 
-function deleteJobOrder(id: number) {
-  return new Promise((resolve, reject) => {
-      db.run('DELETE FROM MyTable WHERE id = ?', id, (err) => {
-          if (err) {
-              reject(err);
-          } else {
-              resolve();
-          }
-      });
-  });
-}
+// function deleteJobOrder(id: number) {
+//   return new Promise((resolve, reject) => {
+//       db.run('DELETE FROM MyTable WHERE id = ?', id, (err) => {
+//           if (err) {
+//               reject(err);
+//           } else {
+//               resolve();
+//           }
+//       });
+//   });
+// }
 
+
+
+/*
+
+    1. Job Order
+    2. Download Video
+    3. Process Video from this
+    4. After Conversion is Complete - Upload it
+    5. Then move on to next job.
+
+*/
 async function triggerConversionProcess() {
   try {
       const jobOrder = await getOldestJobOrder();
@@ -36,8 +48,9 @@ async function triggerConversionProcess() {
           console.log('No pending job orders.');
           return;
       }
+      console.log("Job Order Seen")
       console.log(jobOrder)
-    //   downloadVideo(jobOrder.bucketName, jobOrder.objectKey, "/temp_video_storage")
+      downloadVideo(jobOrder.bucketName, jobOrder.objectKey, "tmp")
       // Download the file information in local directory
 
       // Trigger the conversion process using the FastAPI endpoint
@@ -50,5 +63,5 @@ async function triggerConversionProcess() {
       console.error('Error processing job order:', error);
   }
 }
-
+triggerConversionProcess();
 // setInterval(triggerConversionProcess, 5000); // Check for new job orders every 5 seconds
