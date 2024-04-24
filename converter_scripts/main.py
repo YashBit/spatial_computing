@@ -9,3 +9,7 @@ async def convert_video(file: UploadFile = File(...)):
     # You can pass the uploaded file to your conversion script
     # and handle the conversion process
     return {"message": "Conversion started successfully"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
