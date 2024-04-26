@@ -1,3 +1,16 @@
+#### Commands:
+
+npx ngrok http 3000
+uvicorn main:app --reload (Need to activate base env - PIP: uvicorn fastapi,  python-multipart)
+npm run dev
+npx tsx conversion_script_trigger.ts
+
+source miniconda3/bin/activate
+
+How to propertly create env file?
+
+conda env export > environment.yml 
+
 ## FINISH PIPELINE:
 
 1. **Successfully download data** - DONE 

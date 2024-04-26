@@ -5,7 +5,7 @@ import { uploadFileToS3 } from './src/server/services/s3Upload';
 // Open Database
 import FormData from 'form-data';
 import fs from 'fs';
-
+import path from 'path';
 const db = new sqlite3.Database('job_order.db');
 
 function getOldestJobOrder() {
@@ -55,18 +55,28 @@ async function triggerConversionProcess() {
       const object_metaData = await downloadVideo(jobOrder.bucketName, jobOrder.objectKey, "tmp")
       if (object_metaData) {
         // Create FormData object to send file data
+        const scriptPath = new URL(import.meta.url).pathname;  
+        const videoPath = path.join(path.dirname(scriptPath), 'tmp', 'video.mp4');
+        
+        
+        const fileObject = fs.createReadStream(videoPath);
+
+        // Create a FormData object and append the file
         const formData = new FormData();
-        formData.append('file', fs.createReadStream('tmp')); // Assuming 'tmp' is the downloaded file
-  
-        // Hit the FastAPI endpoint with the file data as input
-        const response: AxiosResponse<{ message: string }> = await axios.post('http://localhost:8000/convert-video/', formData, {
-          headers: {
-            ...formData.getHeaders(), // Include headers required for file upload
-            'Content-Type': 'multipart/form-data', // Ensure correct content type
-          },
+        formData.append('file', fileObject, 'video.mp4');  
+        const response = await axios.post('http://127.0.0.1:8000/convert-video/', formData, {
+          headers: formData.getHeaders(), // Include headers required for file upload
         });
-  
         console.log('Conversion process triggered:', response.data.message);
+          // Hit the FastAPI endpoint with the file data as input
+        // const response: AxiosResponse<{ message: string }> = await axios.post('http://localhost:8000/convert-video/', formData, {
+        //   headers: {
+        //     ...formData.getHeaders(), // Include headers required for file upload
+        //     'Content-Type': 'multipart/form-data', // Ensure correct content type
+        //   },
+        // });
+  
+        // console.log('Conversion process triggered:', response.data.message);
       }
       // Trigger the conversion process using the FastAPI endpoint
       // const response = await axios.post('http://localhost:8000/convert-video/', jobOrder);
