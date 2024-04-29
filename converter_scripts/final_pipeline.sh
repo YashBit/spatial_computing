@@ -17,6 +17,9 @@ input_video="${input_video%[0-9]*}"
 input_video="${input_video}4"
 
 
+############ @@@@@@@@@@@@@@@@@@@@@@ FRAME EXTRACTION
+
+
 echo "Input video file: $input_video"
 frames_folder="video_information/frames"
 if [ -d "$frames_folder" ] && [ "$(ls -A $frames_folder)" ]; then
@@ -30,6 +33,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo "Frame Extraction Complete"
+
+
+############ @@@@@@@@@@@@@@@@@@@@@@ AUDIO STREAM EXTRACTION
+
+
+
 
 echo "Checking for audio streams"
 has_audio=$(ffprobe -loglevel error -select_streams a:0 -show_entries stream=codec_type -of csv=p=0 "$input_video")
@@ -46,47 +55,73 @@ else
     echo "No audio stream found in the input video. Skipping audio extraction."
 fi
 
-echo "Beginning MiDaS Inference"
+############ @@@@@@@@@@@@@@@@@@@@@@ MiDaS Inference 
+
+rm -rf MiDaS/input/*
+rm -rf MiDaS/output/*
+
+cp -r video_information/frames MiDaS/input
+source activate midas-py310
+
+# Clear the contents of the depth folder
+
+# Run the Python script with input and output paths
+cd MiDaS
+python run.py --input_path input/frames --output_path output --grayscale
 if [ $? -ne 0 ]; then
     echo "Error encountered during MiDaS inference."
     exit 1
 fi
+
+# Deactivate the conda environment
+conda deactivate
+
 echo "MiDaS Inference Completed"
 
-if [ "$(ls -A video_information/sbs_frames)" ]; then
-    # If not empty, wipe it clean
-    echo "Removing existing files from video_information/sbs_frames directory..."
-    rm -rf video_information/sbs_frames/*
-fi
 
-echo "Beginning SBS Frame Creation"
-python /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/spm_cli/spatialconverter/spatialconverter/main.py --photo_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/frames --depth_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/depth  
+
+############ @@@@@@@@@@@@@@@@@@@@@@ SBS FRAME CREATION 
+
+# if [ "$(ls -A video_information/sbs_frames)" ]; then
+#     # If not empty, wipe it clean
+#     echo "Removing existing files from video_information/sbs_frames directory..."
+#     rm -rf video_information/sbs_frames/*
+# fi
+
+# echo "Beginning SBS Frame Creation"
+# python spm_cli/spatialconverter/spatialconverter/main.py --photo_folderects video_information/frames --depth_folder video_information/depth  
 # Your SBS frame creation logic goes he
 
-##########
+# ##########
 
-# @@@@@@ MAKE SURE DOCKER IMAGE HAS POETRY INSTALLED
+# # @@@@@@ MAKE SURE DOCKER IMAGE HAS POETRY INSTALLED
 
-##########
+# ########## SBS VIDEO STITCHING 
 
-echo "SBS Frame Extraction Complete"
-poetry run python /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/spm_cli/spatialconverter/spatialconverter/main.py --photo_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/frames --depth_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/depth
-echo "Stitching SBS Frame Video"
-if [ $? -ne 0 ]; then
-    echo "Error encountered during stitching SBS frame video."
-    exit 1
-fi
-echo "SBS Video Complete"
+# echo "SBS Frame Extraction Complete"
+# poetry run python /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/spm_cli/spatialconverter/spatialconverter/main.py --photo_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/frames --depth_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/depth
+# echo "Stitching SBS Frame Video"
+# if [ $? -ne 0 ]; then
+#     echo "Error encountered during stitching SBS frame video."
+#     exit 1
+# fi
+# echo "SBS Video Complete"
 
 
-echo "Beginning Spatial Video Conversion"
-if [ $? -ne 0 ]; then
-    echo "Error encountered during spatial video conversion."
-    exit 1
-fi
-echo "Spatial Video Created"
+############ @@@@@@@@@@@@@@@@@@@@@@ SPATIAL VIDEO (WILL TAKE IN SBS FRAMES, NO NEED TO STITCH)
 
-echo "Spatial Video Returned"
-echo "All Intermediary Files Deleted"
+##### INPUTS: SBS VIDEO , ORIGINAL VIDEO
 
-echo "Operations completed. Exiting"
+
+
+# echo "Beginning Spatial Video Conversion"
+# if [ $? -ne 0 ]; then
+#     echo "Error encountered during spatial video conversion."
+#     exit 1
+# fi
+# echo "Spatial Video Created"
+
+# echo "Spatial Video Returned"
+# echo "All Intermediary Files Deleted"
+
+# echo "Operations completed. Exiting"
