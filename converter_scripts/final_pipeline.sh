@@ -57,16 +57,19 @@ fi
 
 ############ @@@@@@@@@@@@@@@@@@@@@@ MiDaS Inference 
 
+
 rm -rf MiDaS/input/*
-rm -rf MiDaS/output/*
-
 cp -r video_information/frames MiDaS/input
-source activate midas-py310
 
-# Clear the contents of the depth folder
+# IT SEEMS AS THOUGH YOU WILL NEED TO ACTIVATE CONDA ENV BEFORE GLOBALLY
+source miniconda3/bin/activate
+conda activate midas-py310
 
-# Run the Python script with input and output paths
+
+
 cd MiDaS
+rm -rf output/*
+
 python run.py --input_path input/frames --output_path output --grayscale
 if [ $? -ne 0 ]; then
     echo "Error encountered during MiDaS inference."
@@ -79,38 +82,53 @@ conda deactivate
 echo "MiDaS Inference Completed"
 
 
+########### @@@@@@@@@@@@@@@@@@@@@@ SBS FRAME CREATION 
 
-############ @@@@@@@@@@@@@@@@@@@@@@ SBS FRAME CREATION 
-
-# if [ "$(ls -A video_information/sbs_frames)" ]; then
-#     # If not empty, wipe it clean
-#     echo "Removing existing files from video_information/sbs_frames directory..."
-#     rm -rf video_information/sbs_frames/*
-# fi
-
-# echo "Beginning SBS Frame Creation"
-# python spm_cli/spatialconverter/spatialconverter/main.py --photo_folderects video_information/frames --depth_folder video_information/depth  
-# Your SBS frame creation logic goes he
-
-# ##########
+echo "SBS Frame Creation Started"
+cd .. 
+poetry shell
+source miniconda3/bin/activate
+# DELETE OLD SBS FILES
+rm -rf spm_cli/spatialconverter/spatialconverter/sbs_frames/*
+python spm_cli/spatialconverter/spatialconverter/main.py --photo_folder video_information/frames --depth_folder MiDaS/output
+echo "Stitching SBS Frame Video"
+if [ $? -ne 0 ]; then
+    echo "Error encountered during stitching SBS frame video."
+    exit 1
+fi
+echo "SBS Frame Creation Finished"
+#########
 
 # # @@@@@@ MAKE SURE DOCKER IMAGE HAS POETRY INSTALLED
 
-# ########## SBS VIDEO STITCHING 
-
-# echo "SBS Frame Extraction Complete"
-# poetry run python /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/spm_cli/spatialconverter/spatialconverter/main.py --photo_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/frames --depth_folder /Users/yashbharti/Desktop/Engineering/core_projects/spatial_computing/scripts/video_information/depth
-# echo "Stitching SBS Frame Video"
-# if [ $? -ne 0 ]; then
-#     echo "Error encountered during stitching SBS frame video."
-#     exit 1
-# fi
-# echo "SBS Video Complete"
+########## SBS VIDEO STITCHING 
 
 
-############ @@@@@@@@@@@@@@@@@@@@@@ SPATIAL VIDEO (WILL TAKE IN SBS FRAMES, NO NEED TO STITCH)
+
+############ @@@@@@@@@@@@@@@@@@@@@@ SBS IMAGES TO VIDEO
 
 ##### INPUTS: SBS VIDEO , ORIGINAL VIDEO
+
+
+
+echo "Stitching SBS Video"
+if [ $? -ne 0 ]; then
+    echo "Error encountered during spatial video conversion."
+    exit 1
+fi
+
+python image_to_video.py --original_video_path "$input_video" --image_folder spm_cli/spatialconverter/spatialconverter/sbs_frames --output_video_path video_information/sbs_video_test_video.mp4
+
+echo "SBS Video Stitched"
+
+
+
+
+############ @@@@@@@@@@@@@@@@@@@@@@ SPATIAL VIDEO (WILL TAKE IN SBS VIDEO, NO NEED TO STITCH)
+
+##### INPUTS: SBS VIDEO , ORIGINAL VIDEO
+
+# ./spatial_media_kit/new_convert_hsbs.sh video_information/sbs_video_test_video.mp4
 
 
 
