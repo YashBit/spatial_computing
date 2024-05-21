@@ -40,6 +40,7 @@ function getOldestJobOrder() {
     2. Download Video
     3. Process Video from this
     4. After Conversion is Complete - Upload it
+    4a. Delete Job ID, LOCAL VIDEO
     5. Then move on to next job.
 
 */
@@ -57,33 +58,15 @@ async function triggerConversionProcess() {
         // Create FormData object to send file data
         const scriptPath = new URL(import.meta.url).pathname;  
         const videoPath = path.join(path.dirname(scriptPath), 'tmp', 'video.mp4');
-        
-        
         const fileObject = fs.createReadStream(videoPath);
-
-        // Create a FormData object and append the file
         const formData = new FormData();
         formData.append('file', fileObject, 'video.mp4');  
         const response = await axios.post('http://127.0.0.1:8000/convert-video/', formData, {
           headers: formData.getHeaders(), // Include headers required for file upload
         });
         console.log('Conversion process triggered:', response.data.message);
-          // Hit the FastAPI endpoint with the file data as input
-        // const response: AxiosResponse<{ message: string }> = await axios.post('http://localhost:8000/convert-video/', formData, {
-        //   headers: {
-        //     ...formData.getHeaders(), // Include headers required for file upload
-        //     'Content-Type': 'multipart/form-data', // Ensure correct content type
-        //   },
-        // });
-  
-        // console.log('Conversion process triggered:', response.data.message);
+        
       }
-      // Trigger the conversion process using the FastAPI endpoint
-      // const response = await axios.post('http://localhost:8000/convert-video/', jobOrder);
-      // console.log(response.data);
-
-      // Delete the processed job order from the database
-      // await deleteJobOrder(jobOrder.id);
   } catch (error) {
       console.error('Error processing job order:', error);
   }

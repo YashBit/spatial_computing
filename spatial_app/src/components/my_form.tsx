@@ -84,6 +84,7 @@ export function ProfileForm() {
       const bucketName = "spatialapp";
       const folderName = "user_data/";
       console.log(values);
+      
       const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
 
       // Handle form submission data here (e.g., send data to backend API)

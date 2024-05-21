@@ -25,7 +25,7 @@ export const uploadFileToS3 = async (file: Express.Multer.File, email: string, n
 
   const fileReader = new FileReader();
   const readFilePromise = new Promise((resolve, reject) => {
-    fileReader.onload = () => {
+  fileReader.onload = () => {
       // Resolve with the file content when reading is complete
       resolve(fileReader.result);
     };
@@ -34,14 +34,18 @@ export const uploadFileToS3 = async (file: Express.Multer.File, email: string, n
   fileReader.readAsArrayBuffer(file2);
   // console.log("File MIMETYPE")
   // console.log(file2.type)
+  
   try {
     await readFilePromise;
     const fileContent = fileReader.result as ArrayBuffer;
     console.log("FILE CONTENT")
     console.log(fileContent)
+    const timestamp = Date.now();
+    const filename = file2.name;
+    const file_name = `${timestamp}-${filename}`
     const uploadParams = {
       Bucket: bucketName,
-      Key: `${folderName}${file2.name}`,
+      Key: `${folderName}${file_name}`,
       Body: fileContent, 
       ContentType: file2.type, 
       Metadata: { email, name }, 
