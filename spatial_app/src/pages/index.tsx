@@ -1,45 +1,38 @@
-import Head from "next/head";
-import Link from "next/link";
-import Navbar from '../components/Navbar';
-import { Button } from "../components/ui/button";
-import {useState, useEffect} from 'react'
+import Layout from '../../src/components/Layout'
 
-export default function Home() {
-  const handleClick = () => {
-    console.log("Button Clicked");
-  };
+const IndexPage = () => (
+  <Layout title="Home | Next.js + TypeScript Example">
+    <Hero />
+  </Layout>
+)
 
-  const valuePropositions = [
-    "Convert your cherished 2D videos to spatial videos for your Apple Vision Pro",
-    "Experience immersive memories like never before",
-    "Unlock the depth of your videos with Spatial Depth",
-  ];
-  const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(()=>{
-      setIndex((prevIndex) => (prevIndex + 1) % valuePropositions.length);
+/// Page Sections
+const Hero = () => (<div className="relative pt-16 pb-32 flex content-center items-center justify-center"
+  style={{
+    minHeight: "75vh"
+  }}>
+  <div className="absolute top-0 w-full h-full bg-center bg-cover"
+    style={{
+      backgroundImage: "url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')"
+    }}>
+    <span id="blackOverlay" className="w-full h-full absolute opacity-75 bg-black"></span>
+  </div>
+  <div className="container relative mx-auto">
+    <div className="items-center flex flex-wrap">
+      <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+        <div className="pr-12">
+          <h1 className="text-white font-semibold text-5xl">
+            Relive your most cherished Experiences in Depth 
+              </h1>
+          <p className="mt-4 text-lg text-gray-300">
+            Use Depth Convert to transform any 2D video 
+            to Spatial Video for your Apple Vision Pro 
+              </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    }, 2950);
-    return () => clearInterval(interval);
-  }, [valuePropositions.length]);
-  return (
-    <>
-      <Head>
-        <title>Spatial Depth</title>
-        <meta name="description" content="Convert any 2D Video to a Spatial Video"/>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="flex flex-col items-center justify-center">
-        <section className="h-screen flex flex-col items-center justify-center">
-          <h1>{valuePropositions[index]}</h1>
-          {/* You can add more content here */}
-        </section>
-        <section className="h-screen flex flex-col items-center justify-center">
-          <h1>Example Text</h1>
-          {/* You can add more content here */}
-        </section>
-      </main>
-    </>
-  );
-}
+</div>)
+export default IndexPage
