@@ -40,5 +40,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-spatial_app/src/server/services/s3Upload.ts
-spatial_app/src/server/services/s3Download.ts
+spatial_computing/spatial_app/src/server/services/s3Upload.ts
+spatial_computing/spatial_app/src/server/services/s3Download.ts
+spatial_computing/spatial_app/src/pages/api/client_email_trigger.ts
