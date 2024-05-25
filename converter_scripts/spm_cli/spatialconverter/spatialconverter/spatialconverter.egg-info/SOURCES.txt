@@ -1,5 +1,0 @@
-setup.py
-spatialconverter.egg-info/PKG-INFO
-spatialconverter.egg-info/SOURCES.txt
-spatialconverter.egg-info/dependency_links.txt
-spatialconverter.egg-info/top_level.txt

@@ -1,45 +1,56 @@
-import Head from "next/head";
-import Link from "next/link";
-import Navbar from '../components/Navbar';
-import { Button } from "../components/ui/button";
-import {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react';
+import Layout from '../../src/components/Layout';
 
-export default function Home() {
-  const handleClick = () => {
-    console.log("Button Clicked");
-  };
-
-  const valuePropositions = [
-    "Convert your cherished 2D videos to spatial videos for your Apple Vision Pro",
-    "Experience immersive memories like never before",
-    "Unlock the depth of your videos with Spatial Depth",
-  ];
+const Hero: React.FC<{ valuePropositions: string[] }> = ({ valuePropositions }) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(()=>{
+    const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % valuePropositions.length);
-
-    }, 2950);
+    }, 4950);
     return () => clearInterval(interval);
   }, [valuePropositions.length]);
+
   return (
-    <>
-      <Head>
-        <title>Spatial Depth</title>
-        <meta name="description" content="Convert any 2D Video to a Spatial Video"/>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="flex flex-col items-center justify-center">
-        <section className="h-screen flex flex-col items-center justify-center">
-          <h1>{valuePropositions[index]}</h1>
-          {/* You can add more content here */}
-        </section>
-        <section className="h-screen flex flex-col items-center justify-center">
-          <h1>Example Text</h1>
-          {/* You can add more content here */}
-        </section>
-      </main>
-    </>
+    <div className="relative pt-16 pb-32 flex content-center items-center justify-center" style={{ minHeight: "calc(100vh - 64px)" }}>
+      <div className="container relative mx-auto">
+        <div className="items-center flex flex-wrap">
+          <div className="w-full lg:w-6/12 px-4 text-center">
+            <div className="pr-12">
+              <h1 className="text-rainbow font-semibold text-7xl mt-[-40%]"> {/* Apply rainbow text effect and adjust margin */}
+                {valuePropositions[index]}
+              </h1>
+              <p className="mt-4 text-lg font-bold text-black">
+                Use Depth Convert to transform any 2D video 
+                to Spatial Video for your Apple Vision Pro 
+              </p>
+            </div>
+          </div>
+          {/* Right Half */}
+          <div className="w-full lg:w-6/12 px-4 text-center">
+            <div className="pl-12">
+              {/* Add your demo content here */}
+              <img src="/demo-image.jpg" alt="Demo Image" className="w-full" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+const IndexPage: React.FC = () => {
+  const valuePropositions: string[] = [
+    "Convert your cherished videos to spatial videos for your Apple Vision Pro",
+    "Experience memories in depth like never before",
+    "Unlock the depth of your videos with Spatial Depth",
+  ];
+
+  return (
+    <Layout title="Spatial App">
+      <Hero valuePropositions={valuePropositions} />
+    </Layout>
+  );
+};
+
+export default IndexPage;

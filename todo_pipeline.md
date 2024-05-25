@@ -1,23 +1,13 @@
+1. CONVERT SIMPLE UI/UX LOGO + WITH COPY 
+2. NEAT, SIMPLE AND RESPECTABLE
+3. UPLOAD -> GET TRIGGER EMAIL  
+5. GCP, Buy Domain 
+EMAIL, HELP CONTACT PAGE (RESEND -> NEED DOMAIN TO BE ABLE TO SEND EMAIL)
 
-### TODO:
+STAGE 5: STRIPE INCLUSION
 
-- [ ] Spatial Converter Dockerize
-- [ ] Pipeline Completed
-- [ ] triggerscript completed
-- [ ] Email with Converted Video
-- [ ] UI/UX Basic 
-- [ ] HOST ONLINE - GCP
-- [ ] BUY DOMAIN
-- [ ] MOVE TO MARKETING 
-
-
-
-
-#### PROD
-
-1. Write paths of localhost (UVICORN) in .env file
-2. CONNECT HOST LINKS TO EC2 PUBLIC IP 
-
+1. CREATE PAYMENT BRACKETS (HOW DOES ONE STRUCTURE THE PAYMENT PLAN)
+2. FIGURE OUT YOURSELF AND 
 
 
 ### MAKE SURE THE PRODUCTION MACHINE IS
@@ -111,31 +101,3 @@ conda env export > environment.yml
 5. **Stripe Integration** 
 6. **All Env List:** 
 
-## STRIPE PAYMENT INFORMATION STORAGE
-
-- [ ] npx ngrok http 3000
-- [ ] uvicorn main:app --reload
-- [ ] need to run: `npx tsx conversion_script_trigger.ts`
-
-## Sentry for Error Management
-
-## Better UI 
-   - [ ] COPY modal.com format 
-   - [ ] Make it better 
-   - [ ] Give multiple upload options, url/local
-   - [ ] Give batch conversion options
-
-## ALL ENVs:
-
-- Download MiniConda:
-  - Environments: MiDaS, converter_scripts (general scripts)
-- Poetry: 
-  - spm_cli -> spatial_converter
-- Brew:
-  - MP4Box, FFMPEG 
-
-## EC2, Dockerisation, Domain Purchase, User Analytics
-   - [ ] REPLACE LAMBDA FUNCTION NGROK LINKS WITH HOSTING LINKS
-   - [ ] CHECK, THERE WILL BE JUST A URL CHANGE
-
-## Marketing, Copy and Distribution

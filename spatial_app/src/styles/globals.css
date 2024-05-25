@@ -50,4 +50,17 @@
       --ring: 224.3 76.3% 48%;
     }
   }
-  
+  /* Add this CSS to your global styles or component styles */
+@keyframes rainbow {
+  0% { color: red; }
+  16.66% { color: orange; }
+  33.33% { color: yellow; }
+  50% { color: green; }
+  66.66% { color: blue; }
+  83.33% { color: indigo; }
+  100% { color: violet; }
+}
+
+.text-rainbow {
+  animation: rainbow 7s linear infinite; /* Adjust the duration as needed */
+}

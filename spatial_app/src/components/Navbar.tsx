@@ -1,43 +1,32 @@
 import Link from 'next/link';
-import {useState} from 'react';
-import axios from 'axios';
-import {useRouter} from 'next/router';
-/*
-  REMOVE THE HOME BUTTON 
-  IT SHOULD BE REPLACED WITH THE ICON ON THE LEFT 
 
-
-*/
-
-
-
-
-export default function Navbar(){
-    return (
-        <nav className="">
-          <ul className="flex justify-end pr-6 py-3"> 
-            <li>
-              <Link href="/">
-                <div className="link">Home</div>
-              </Link>
-            </li>
-            <li className="ml-4">
-              <Link href="/about">
-                <div className="link">About</div>
-              </Link>
-            </li>
-            <li className="ml-4">
-              <Link href="/pricing">
-                <div className="link">Pricing</div>
-              </Link>
-            </li>
-            <li className="ml-4">
-              <Link href="/convert_now">
-                <div className="link">Convert Now</div>
-              </Link>
-            </li>
-           
-          </ul>
-        </nav>
-      );
+export default function Navbar() {
+  return (
+    <nav className="flex justify-between items-center px-6 py-3 bg-transparent">
+      <ul className="flex">
+        <li>
+          <Link href="/">
+            <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
+          </Link>
+        </li>
+      </ul>
+      <ul className="flex">
+        <li className="ml-4">
+          <Link href="/pricing">
+            <div className="link font-bold">Pricing</div>
+          </Link>
+        </li>
+        <li className="ml-4">
+          <Link href="/convert_now">
+            <div className="link font-bold">Convert Now</div>
+          </Link>
+        </li>
+        <li className="ml-4">
+          <Link href="/contact_us">
+            <div className="link font-bold">Contact</div>
+          </Link>
+        </li>
+      </ul>
+    </nav>
+  );
 }
