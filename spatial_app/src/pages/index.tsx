@@ -19,7 +19,7 @@ const Hero: React.FC<{ valuePropositions: string[] }> = ({ valuePropositions }) 
         <div className="items-center flex flex-wrap">
           <div className="w-full lg:w-6/12 px-4 text-center">
             <div className="pr-12">
-              <h1 className="text-yellow font-semibold text-6xl mt-[-20%]">
+              <h1 className="text-white font-semibold text-6xl mt-[-20%]">
                 Convert any 2D video 
                 to Spatial Video for your Apple Vision Pro 
               </h1>
@@ -27,7 +27,7 @@ const Hero: React.FC<{ valuePropositions: string[] }> = ({ valuePropositions }) 
                 {valuePropositions[index]}
               </p>
               <div className="mt-8">
-                <Button asChild className="text-white bg-blue-600 px-8 py-4 rounded-lg text-lg">
+                <Button asChild className="text-white bg-yellow-600 px-8 py-4 rounded-lg text-lg">
                   <Link href="/convert_now">
                     Convert Now
                   </Link>
