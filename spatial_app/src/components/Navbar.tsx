@@ -12,8 +12,8 @@ export default function Navbar() {
       </ul>
       <ul className="flex">
         <li className="ml-4">
-          <Link href="/pricing">
-            <div className="link font-bold">Pricing</div>
+          <Link href="/about">
+            <div className="link font-bold">About</div>
           </Link>
         </li>
         <li className="ml-4">
