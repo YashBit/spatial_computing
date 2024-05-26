@@ -1,25 +1,36 @@
-import Head from "next/head";
-import Link from "next/link";
 
-const handleClick = () => {
-  console.log("Button Clicked")
-};
+import { Card, CardContent } from "../../../src/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../../../src/components/ui/carousel"
 
-export default function About() {
-  // Debugging statement to ensure the component renders
-  console.log("Home component rendered");
-  
+export default function CarouselSize() {
   return (
-    <>
-      <Head>
-        <title>Spatial Depth</title>
-        <meta name="description" content="Convert any 2D Video to a Spatial Video"/>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center">
-        {/* Debugging statement to ensure the Button component renders */}
-      <h1>Pricing Copy</h1>
-      </main>
-    </>
-  ); 
+    <Carousel
+      opts={{
+        align: "start",
+      }}
+      className="w-full max-w-sm"
+    >
+      <CarouselContent>
+        {Array.from({ length: 5 }).map((_, index) => (
+          <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+            <div className="p-1">
+              <Card>
+                <CardContent className="flex aspect-square items-center justify-center p-6">
+                  <span className="text-3xl font-semibold">{index + 1}</span>
+                </CardContent>
+              </Card>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
+  )
 }

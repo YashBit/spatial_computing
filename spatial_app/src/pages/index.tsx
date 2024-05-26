@@ -2,7 +2,15 @@ import { useState, useEffect } from 'react';
 import Layout from '../../src/components/Layout';
 import { Button } from "../../src/components/ui/button"
 import Link from 'next/link';
-
+import { Card, CardContent } from "../../src/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../../src/components/ui/carousel"
+ 
 const Hero: React.FC<{ valuePropositions: string[] }> = ({ valuePropositions }) => {
   const [index, setIndex] = useState(0);
 
