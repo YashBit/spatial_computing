@@ -76,7 +76,7 @@
   }
 
   @keyframes rainbow {
-    0% { color: red; }
+    0% { color: rgb(0, 145, 255); }
     16.66% { color: orange; }
     33.33% { color: yellow; }
     50% { color: green; }

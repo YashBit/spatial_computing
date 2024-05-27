@@ -35,7 +35,7 @@ const Hero: React.FC<{ valuePropositions: string[] }> = ({ valuePropositions }) 
                 {valuePropositions[index]}
               </p>
               <div className="mt-8">
-                <Button asChild className="text-white bg-yellow-600 px-8 py-4 rounded-lg text-lg">
+                <Button asChild className="text-white bg-blue-600 px-8 py-4 rounded-lg text-black">
                   <Link href="/convert_now">
                     Convert Now
                   </Link>
