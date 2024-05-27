@@ -78,13 +78,21 @@
   @keyframes rainbow {
     0% { color: rgb(0, 145, 255); }
     16.66% { color: orange; }
-    33.33% { color: yellow; }
+    33.33% { color: rgb(232, 232, 74); }
     50% { color: green; }
-    66.66% { color: blue; }
-    83.33% { color: indigo; }
+    66.66% { color: rgb(49, 49, 178); }
+    83.33% { color: rgb(146, 21, 83); }
     100% { color: violet; }
   }
   
   .text-rainbow {
     animation: rainbow 7s linear infinite; /* Adjust the duration as needed */
+  }
+
+  .text-core_heading{
+    color: #3da3ec;
+  }
+
+  .bg-button_color {
+    background-color: #3246e1;
   }
