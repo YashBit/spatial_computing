@@ -37,7 +37,7 @@ export default function CarouselSize() {
         opts={{
           align: "center", // Align carousel content to center
         }}
-        className="w-full max-w-sm"
+        className="w-full max-w-2xl"
       >
         <CarouselContent>
           {cardContents.map((content, index) => (
@@ -45,9 +45,9 @@ export default function CarouselSize() {
               key={index}
               className="md:basis-1/2 lg:basis-1/3"
             >
-              <div className="p-4"> {/* Adjust padding to increase size */}
+              <div className="p-3"> {/* Adjust padding to increase size */}
                 <Card>
-                  <CardContent className="flex flex-col items-center justify-center p-15 text-center"> {/* Increase padding to increase size */}
+                  <CardContent className="flex flex-col items-center justify-center p-12 text-center"> {/* Increase padding to increase size */}
                     <h2 className="text-xl font-bold mb-4">{content.header}</h2>
                     <p className="text-lg">{content.paragraph}</p>
                   </CardContent>
