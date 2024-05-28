@@ -96,3 +96,18 @@
   .bg-button_color {
     background-color: #3246e1;
   }
+
+
+
+  /* globals.css */
+.bg-regular {
+  background-image: url('/avp2.jpg');
+  background-position: center;
+  background-size: cover;
+}
+
+.bg-blur {
+  background-image: url('/avp2_blur.png');
+  background-position: center;
+  background-size: cover;
+}
