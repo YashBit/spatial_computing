@@ -1,5 +1,16 @@
 import { useState, useEffect } from 'react';
 import Layout from '../../src/components/Layout';
+import { Button } from "../../src/components/ui/button"
+import Link from 'next/link';
+import { Card, CardContent } from "../../src/components/ui/card"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../../src/components/ui/carousel"
+  // Assuming you have a global CSS file
 
 const Hero: React.FC<{ valuePropositions: string[] }> = ({ valuePropositions }) => {
   const [index, setIndex] = useState(0);
@@ -17,19 +28,24 @@ const Hero: React.FC<{ valuePropositions: string[] }> = ({ valuePropositions }) 
         <div className="items-center flex flex-wrap">
           <div className="w-full lg:w-6/12 px-4 text-center">
             <div className="pr-12">
-              <h1 className="text-rainbow font-semibold text-7xl mt-[-40%]"> {/* Apply rainbow text effect and adjust margin */}
-                {valuePropositions[index]}
-              </h1>
-              <p className="mt-4 text-lg font-bold text-black">
-                Use Depth Convert to transform any 2D video 
+              <h1 className="text-core_heading text-white font-semibold text-6xl mt-[-20%]">
+                Convert any 2D video 
                 to Spatial Video for your Apple Vision Pro 
+              </h1>
+              <p className="mt-8 text-4xl font-bold text-rainbow">
+                {valuePropositions[index]}
               </p>
+              <div className="mt-8">
+                <Button asChild className="text-black bg-button_color px-8 py-4 rounded-lg">
+                  <Link href="/convert_now">
+                    Convert Now
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
-          {/* Right Half */}
           <div className="w-full lg:w-6/12 px-4 text-center">
             <div className="pl-12">
-              {/* Add your demo content here */}
               <img src="/demo-image.jpg" alt="Demo Image" className="w-full" />
             </div>
           </div>
@@ -41,7 +57,6 @@ const Hero: React.FC<{ valuePropositions: string[] }> = ({ valuePropositions }) 
 
 const IndexPage: React.FC = () => {
   const valuePropositions: string[] = [
-    "Convert your cherished videos to spatial videos for your Apple Vision Pro",
     "Experience memories in depth like never before",
     "Unlock the depth of your videos with Spatial Depth",
   ];
