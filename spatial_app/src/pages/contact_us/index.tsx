@@ -1,83 +1,45 @@
-'use client';
+/**
+ * v0 by Vercel.
+ * @see https://v0.dev/t/wwLZN1kvFaE
+ * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
+ */
+import { Label } from "../../../src/components/ui/label"
+import { Input } from "../../../src/components/ui/input"
+import { Textarea } from "../../../src/components/ui/textarea"
+import { Button } from "../../../src/components/ui/button"
 
-import { useForm } from 'react-hook-form';
-import { Resend } from 'resend';
-
-type FormInput = {
-  name: string;
-  email: string;
-  message: string;
-};
-
-export default function ContactUsForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-    reset,
-  } = useForm<FormInput>();
-
-   /**
-   * The function sends a POST request to a server with form data and displays a success notification.
-   * @param {FormInput} formData - The formData parameter is an object that contains the input values
-   * from the form.
-   */
-  async function onSubmit(formData: FormInput) { 
-    await fetch('/api/send', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-
-      body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        message: formData.message,
-      }),
-    }).then(() => {
-      // Toast notification
-      toast.success('Your email message has been sent successfully');
-    });
-
-    reset();
-  }
-
+export default function Component() {
   return (
-    <div className='w-10/12 md:w-6/12'>
-      <form
-        onSubmit={handleSubmit(onSubmit)} // updated code
-        className='mb-10 mt-5 flex w-full flex-col rounded-md bg-white p-5 py-14 shadow-lg md:max-w-3xl md:px-10 mx-auto'
-      >
-        <input
-          className='mt-4 mb-3 h-14 block w-full rounded-md border px-3 text-gray-600 outline-none focus:border-stone-500 focus:outline-none md:mb-0'
-          type='text'
-          placeholder='Name'
-          required
-          {...register('name')}
-        />
-        <input
-          className='mt-4 mb-3 h-14 block w-full rounded-md border px-3 text-gray-600 outline-none focus:border-stone-500 focus:outline-none md:mb-0'
-          type='email'
-          placeholder='Email'
-          required
-          {...register('email')}
-        />
-        <textarea
-          className='mt-4 mb-5 block w-full rounded-md border px-3 text-gray-600 outline-none focus:border-stone-500 focus:outline-none md:mb-0'
-          placeholder='Message Us'
-          rows={6}
-          required
-          {...register('message')}
-        />
-
-        <button
-          disabled={isSubmitting}
-          type='submit'
-          className='bg-blue-700 px-6 py-3 disabled:bg-gray-500 block-primary rounded-md cursor-pointer text-white mt-4 font-bold'
-        >
-          Book Appointment
-        </button>
-      </form>
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-2xl mx-auto space-y-8">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">Contact me</h1>
+          <p className="text-gray-500 dark:text-gray-400">
+            Want to get in touch? Fill out the form below to send me a message.
+          </p>
+        </div>
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Name</Label>
+              <Input id="name" placeholder="Enter your name" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" placeholder="Enter your email" type="email" />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="subject">Subject</Label>
+            <Input id="subject" placeholder="Enter the subject of your message" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="message">Message</Label>
+            <Textarea id="message" placeholder="Enter your message" className="min-h-[100px]" />
+          </div>
+          <Button>Send message</Button>
+        </div>
+      </div>
     </div>
-  );
+  )
 }
