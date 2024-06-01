@@ -1,6 +1,12 @@
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind components;
+@tailwind utilities;
+/* globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  @apply font-sans;
+}
 
   @layer base {
     :root {
@@ -101,13 +107,24 @@
 
   /* globals.css */
 .bg-regular {
-  background-image: url('/avp2.jpg');
+  background-image: url('/avp.jpg');
   background-position: center;
   background-size: cover;
 }
 
 .bg-blur {
-  background-image: url('/avp2_blur.png');
+  background-image: url('/avp_blur.png');
   background-position: center;
   background-size: cover;
+}
+/* styles.css */
+.custom-card-bg {
+  background-color: #146ec8; /* Light blue shade */
+}
+/* External CSS file or inline styles */
+.input-label {
+  color: white; /* Change to your desired text color */
+}
+.input-description {
+  color: white; /* Change to your desired text color */
 }

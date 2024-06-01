@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,24 +17,7 @@ import {
 import {uploadFileToS3} from "../server/services/s3Upload"
 import { useRouter } from 'next/router';
 
-
-/*
-
-
-  1. Form Submit
-  2. Stripe Payment
-  3. Only when Stripe Payment is successful
-  4. Allow for 
-
-
-
-
-*/
-
-
-
 export function ProfileForm() {
-  // Images
   const MAX_IMAGE_SIZE = 2147483648; // 2 GB in bytes
   const ALLOWED_VIDEO_TYPES = [
     "video/mov",
@@ -45,7 +26,6 @@ export function ProfileForm() {
     "video/*",
   ];
 
-  // Form Schema Validation
   const formSchema = z.object({
     name: z.string().min(2, {
         message: "Name must be at least 2 characters.",
@@ -53,7 +33,8 @@ export function ProfileForm() {
     email: z.string().email(),
     videos: z
       .custom<FileList>((val) => val instanceof FileList, "Required")
-      .refine((files) => files.length > 0, `Required`)      .refine(
+      .refine((files) => files.length > 0, `Required`)      
+      .refine(
         (files) =>
           Array.from(files).every((file) => file.size <= MAX_IMAGE_SIZE),
         `Less than 2GB please.`
@@ -67,37 +48,27 @@ export function ProfileForm() {
       ),
   });
 
-  // Form Hook
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
   const router = useRouter();
 
-  // Form Submit Handler (After validated with zod)
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Log values
-    // console.log(values);
     try{
       const videos = values["videos"];
       const email = values["email"];
       const name = values["name"];
       const bucketName = "spatialapp";
       const folderName = "user_data/";
-      console.log(values);
       
       const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
 
-      // Handle form submission data here (e.g., send data to backend API)
       console.log("Uploaded file URL:", fileUrl);
 
-      // Redirect to success page or another route
-
-      // REDIRECT TO STRIPE PAYMENT -> 
       router.push("convert_now/success");
     } catch (error) {
       console.error("Error submitting form:", error);
     }
-
   };
 
   return (
@@ -112,42 +83,38 @@ export function ProfileForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel className="text-white">Name</FormLabel>
               <FormControl>
                 <Input placeholder="Your name" {...field} />
               </FormControl>
-              <FormDescription>This is your public display name.</FormDescription>
+              <FormDescription className="text-white">This is your public display name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Email field */}
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel className="text-white">Email Address</FormLabel>
               <FormControl>
                 <Input type="email" placeholder="Your email" {...field} />
               </FormControl>
-              <FormDescription>Please make sure it is correct.</FormDescription>
+              <FormDescription className="text-white">Please make sure it is correct.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-          {/* Images */}
           <FormField
             control={form.control}
             name="videos"
             render={({ field: { onChange }, ...field }) => {
-              // Get current images value (always watched updated)
               const videos = form.watch("videos");
 
               return (
                 <FormItem>
-                  <FormLabel>Videos</FormLabel>
-                  {/* File Upload */}
+                  <FormLabel className="text-white">Videos</FormLabel>
                   <FormControl>
                     <Input
                       type="file"
@@ -156,23 +123,18 @@ export function ProfileForm() {
                       disabled={form.formState.isSubmitting}
                       {...field}
                       onChange={(event) => {
-                        // Triggered when user uploaded a new file
-                        // FileList is immutable, so we need to create a new one
                         const dataTransfer = new DataTransfer();
 
-                        // Add old images
                         if (videos) {
                           Array.from(images).forEach((video) =>
                             dataTransfer.items.add(video)
                           );
                         }
 
-                        // Add newly uploaded images
                         Array.from(event.target.files!).forEach((videos) =>
                           dataTransfer.items.add(videos)
                         );
 
-                        // Validate and update uploaded file
                         const newFiles = dataTransfer.files;
                         onChange(newFiles);
                       }}
@@ -185,9 +147,6 @@ export function ProfileForm() {
           />
 
           <div className="flex flex-col gap-5 sm:flex-row">
-            
-
-            {/* Submit Button */}
             <Button
               variant="default"
               className="flex w-full flex-row items-center gap-2"
@@ -198,7 +157,7 @@ export function ProfileForm() {
               {form.formState.isSubmitting && (
                 <Loader2 className="h-4 w-4 animate-spin" />
               )}
-              Submit
+               Submit & Pay
             </Button>
           </div>
         </form>
@@ -206,4 +165,3 @@ export function ProfileForm() {
     </section>
   );
 };
-
