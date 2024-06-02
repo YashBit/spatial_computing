@@ -51,10 +51,10 @@ const IndexPage: React.FC = () => {
   return (
     <Layout title="Spatial App">
       <div className="flex flex-col justify-center items-center min-h-screen py-16">
-        <h1 className="text-5xl font-bold text-center text-core_heading">{valuePropositions[index]}</h1>
-        <p className="mt-8 text-2xl text-center off-white-text">
-          Convert any 2D video to Spatial Video for your Apple Vision Pro
-        </p>
+        <div className="bg-black bg-opacity-50 p-4 rounded-lg mb-8">
+          <h1 className="text-5xl font-bold text-center text-core_heading">{valuePropositions[index]}</h1>
+        </div>
+    
 
         <div className="mt-16 container mx-auto">
           <Carousel
