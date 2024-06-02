@@ -33,7 +33,7 @@ const cardContents = [
 export default function CarouselSize() {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
-      <h1 className="text-4xl font-bold mb-8">Welcome to Our Video Transformation App</h1>
+      <h1 className="text-4xl font-bold mb-8">Best 3D Converter Tool On the Market</h1>
       <Carousel
         opts={{
           align: "center",
@@ -48,7 +48,7 @@ export default function CarouselSize() {
             >
               <div className="p-1">
                 <Card className="custom-card-bg">
-                  <CardContent className="flex flex-col items-center justify-center p-4 text-center">
+                  <CardContent className="custom-card-content text-white flex flex-col items-center justify-center p-4 text-center">
                     <h2 className="text-xl font-bold mb-4">{content.header}</h2>
                     <p className="text-lg">{content.paragraph}</p>
                   </CardContent>

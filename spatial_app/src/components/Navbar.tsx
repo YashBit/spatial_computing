@@ -13,17 +13,17 @@ export default function Navbar() {
       <ul className="flex">
         <li className="ml-4">
           <Link href="/about">
-            <div className="link font-bold">About</div>
+            <div className="link  text-white">About</div>
           </Link>
         </li>
         <li className="ml-4">
           <Link href="/convert_now">
-            <div className="link font-bold">Convert Now</div>
+            <div className="link text-white">Convert Now</div>
           </Link>
         </li>
         <li className="ml-4">
           <Link href="/contact_us">
-            <div className="link font-bold">Contact</div>
+            <div className="link text-white">Contact</div>
           </Link>
         </li>
       </ul>

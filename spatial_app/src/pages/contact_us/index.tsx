@@ -1,45 +1,82 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/wwLZN1kvFaE
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
-import { Label } from "../../../src/components/ui/label"
-import { Input } from "../../../src/components/ui/input"
-import { Textarea } from "../../../src/components/ui/textarea"
-import { Button } from "../../../src/components/ui/button"
+import React, { useState, FormEvent, ChangeEvent } from "react";
+import { Label } from "../../../src/components/ui/label";
+import { Input } from "../../../src/components/ui/input";
+import { Textarea } from "../../../src/components/ui/textarea";
+import { Button } from "../../../src/components/ui/button";
 
 export default function Component() {
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [subject, setSubject] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const formData = {
+      name,
+      email,
+      subject,
+      message,
+    };
+    console.log("Form Data Submitted:", formData);
+    // You can send formData to a server or perform any other actions here
+  };
+
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setter(e.target.value);
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-2xl mx-auto space-y-8">
+      <form onSubmit={handleSubmit} className="w-full max-w-2xl mx-auto space-y-8">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold">Contact me</h1>
-          <p className="text-gray-500 dark:text-gray-400">
+        <h1 className="text-3xl font-bold text-core_heading">Contact Us</h1>
+          <p className="off-white-text">
             Want to get in touch? Fill out the form below to send me a message.
           </p>
         </div>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Enter your name" />
+            <div className="space-y-2 text-core_heading" >
+              <Label htmlFor="name" >Name</Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={handleInputChange(setName)}
+              />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 text-core_heading">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" placeholder="Enter your email" type="email" />
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={handleInputChange(setEmail)}
+              />
             </div>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 text-core_heading">
             <Label htmlFor="subject">Subject</Label>
-            <Input id="subject" placeholder="Enter the subject of your message" />
+            <Input
+              id="subject"
+              value={subject}
+              onChange={handleInputChange(setSubject)}
+            />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2 text-core_heading">
             <Label htmlFor="message">Message</Label>
-            <Textarea id="message" placeholder="Enter your message" className="min-h-[100px]" />
+            <Textarea
+              id="message"
+              className="min-h-[100px]"
+              value={message}
+              onChange={handleInputChange(setMessage)}
+            />
           </div>
-          <Button>Send message</Button>
+          <Button type="submit">Send message</Button>
         </div>
-      </div>
+      </form>
     </div>
-  )
+  );
 }

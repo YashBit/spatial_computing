@@ -1,8 +1,45 @@
 import Head from "next/head";
 import Link from "next/link";
-import { ProfileForm } from '../../components/my_form';
+import { ProfileForm } from '../../../src/components/my_form';
+import * as React from "react";
+import { Button } from "../../../src/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../../../src/components/ui/card";
 
-export default function convert_now() {
+export function PricingCard() {
+  const payRanges = [
+    { minutes: "0-5 minutes", price: "$5" },
+    { minutes: "5-10 minutes", price: "$10" },
+    { minutes: "10-15 minutes", price: "$15" },
+  ];
+
+  return (
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>Pricing Plans</CardTitle>
+        <CardDescription>Choose a plan that suits your needs.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-4">
+          {payRanges.map((range, index) => (
+            <div key={index} className="flex justify-between">
+              <span className="text-lg font-semibold">{range.minutes}</span>
+              <span className="text-lg">{range.price}</span>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default function ConvertNow() {
   return (
     <>
       <Head>
@@ -11,20 +48,15 @@ export default function convert_now() {
         {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
       <main className="flex justify-center items-center min-h-screen">
-        <div className="flex flex-col items-center">
-          <h1 className="text-3xl font-bold mb-4">Convert Now</h1>
-          <p className="text-lg mb-8">Choose a plan below to get started:</p>
-          {/* Pricing information */}
-          <div className="bg-gray-100 p-4 rounded-lg mb-8">
-            <h2 className="text-xl font-semibold mb-2">Pricing Plans</h2>
-            <ul className="list-disc pl-4">
-              <li>Video Length: $5</li>
-              <li>Video Length: $5</li>
-              <li>Video Length: $5</li>
-            </ul>
+        <div className="flex w-full max-w-6xl items-start">
+          <div className="w-1/2 flex flex-col items-center">
+            <h1 className="text-3xl font-bold mb-4">Convert Now</h1>
+            <p className="text-lg mb-8">Upload - Pay - Receive Email</p>
+            <ProfileForm />
           </div>
-          {/* Profile Form */}
-          <ProfileForm />
+          <div className="w-1/2 flex flex-col items-center mt-8">
+            <PricingCard />
+          </div>
         </div>
       </main>
     </>

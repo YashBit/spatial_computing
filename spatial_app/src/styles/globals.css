@@ -96,7 +96,7 @@ body {
   }
 
   .text-core_heading{
-    color: #3da3ec;
+    color: #b0d7c7;
   }
 
   .bg-button_color {
@@ -104,7 +104,13 @@ body {
   }
 
 
+  .off-white-text {
+    color: rgba(255, 255, 255, 0.95); /* Off-white color */
+  }
 
+  
+  
+  
   /* globals.css */
 .bg-regular {
   background-image: url('/avp.jpg');
@@ -119,7 +125,12 @@ body {
 }
 /* styles.css */
 .custom-card-bg {
-  background-color: #146ec8; /* Light blue shade */
+  background-color: #000000bd; /* Light blue shade */
+  border: none;
+}
+.custom-card-child {
+  background-color: #2edac3c4; /* Light blue shade */
+  border: none;
 }
 /* External CSS file or inline styles */
 .input-label {
