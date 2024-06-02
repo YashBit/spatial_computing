@@ -83,11 +83,11 @@ export function ProfileForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Name</FormLabel>
+              <FormLabel className="text-core_heading">Name</FormLabel>
               <FormControl>
-                <Input placeholder="Your name" {...field} />
+                <Input  {...field} />
               </FormControl>
-              <FormDescription className="text-white">This is your public display name.</FormDescription>
+              <FormDescription className="off-white-text">This is your public display name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -97,11 +97,11 @@ export function ProfileForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-white">Email Address</FormLabel>
+              <FormLabel className="text-core_heading">Email Address</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="Your email" {...field} />
+                <Input type="email"  {...field} />
               </FormControl>
-              <FormDescription className="text-white">Please make sure it is correct.</FormDescription>
+              <FormDescription className="off-white-text">Please make sure it is correct.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -114,7 +114,7 @@ export function ProfileForm() {
 
               return (
                 <FormItem>
-                  <FormLabel className="text-white">Videos</FormLabel>
+                  <FormLabel className="text-core_heading">Videos</FormLabel>
                   <FormControl>
                     <Input
                       type="file"

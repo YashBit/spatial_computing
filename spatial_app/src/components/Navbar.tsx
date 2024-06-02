@@ -11,11 +11,7 @@ export default function Navbar() {
         </li>
       </ul>
       <ul className="flex">
-        <li className="ml-4">
-          <Link href="/about">
-            <div className="link  text-white">About</div>
-          </Link>
-        </li>
+
         <li className="ml-4">
           <Link href="/convert_now">
             <div className="link text-white">Convert Now</div>

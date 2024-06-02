@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
-import { ProfileForm } from '../../../src/components/my_form';
+import { ProfileForm } from '../../components/my_form';
 import * as React from "react";
-import { Button } from "../../../src/components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,7 +10,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../src/components/ui/card";
+} from "../../components/ui/card";
 
 export function PricingCard() {
   const payRanges = [
@@ -20,12 +20,13 @@ export function PricingCard() {
   ];
 
   return (
-    <Card className="w-[350px]">
-      <CardHeader>
+    <Card className="w-[350px] relative">
+      <div className="absolute inset-0 bg-black opacity-80 rounded-lg"></div>
+      <CardHeader className="relative z-10 text-core_heading">
         <CardTitle>Pricing Plans</CardTitle>
-        <CardDescription>Choose a plan that suits your needs.</CardDescription>
+        <CardDescription className="off-white-text">Choose a plan that suits your needs.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="relative z-10 text-white">
         <div className="grid gap-4">
           {payRanges.map((range, index) => (
             <div key={index} className="flex justify-between">
@@ -48,10 +49,11 @@ export default function ConvertNow() {
         {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
       <main className="flex justify-center items-center min-h-screen">
-        <div className="flex w-full max-w-6xl items-start">
-          <div className="w-1/2 flex flex-col items-center">
-            <h1 className="text-3xl font-bold mb-4">Convert Now</h1>
-            <p className="text-lg mb-8">Upload - Pay - Receive Email</p>
+        <div className="flex w-full max-w-6xl items-start relative">
+          <div className="absolute inset-y-0 convert-bg bg-black opacity-80 rounded-lg"></div>
+          <div className="w-1/2 flex flex-col items-center relative z-10">
+            <h1 className="text-3xl font-bold mb-4 text-core_heading">Convert Now</h1>
+            <p className="text-lg mb-8 text-core_heading">Upload - Pay - Receive Email</p>
             <ProfileForm />
           </div>
           <div className="w-1/2 flex flex-col items-center mt-8">
