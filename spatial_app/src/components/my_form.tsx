@@ -72,11 +72,11 @@ export function ProfileForm() {
   };
 
   return (
-    <section className="flex flex-col gap-5 xl:gap-6">
+    <section className="flex flex-col gap-8 xl:gap-10 text-xlg">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 xl:gap-5"
+          className="flex flex-col gap-4 xl:gap-5 "
         >
         <FormField
           control={form.control}

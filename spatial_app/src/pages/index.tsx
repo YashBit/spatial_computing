@@ -13,7 +13,7 @@ import {
 
 const IndexPage: React.FC = () => {
   const valuePropositions: string[] = [
-    "Unlock the depth of your videos with Spatial Depth",
+    "2D -> Spatial Videos for Apple Vision Pro",
   ];
 
   const cardContents = [
@@ -23,7 +23,7 @@ const IndexPage: React.FC = () => {
     },
     {
       header: "Affordable Pricing",
-      paragraph: "Best prices in the market! Get access to premium video editing features without breaking the bank. "
+      paragraph: "Best prices in the market for similar products. Get access to premium video editing features without breaking the bank. "
     },
     {
       header: "Consistent",
@@ -31,7 +31,7 @@ const IndexPage: React.FC = () => {
     },
     {
       header: "Upto 2GB or 30 Minutes of 1080p HD Videos",
-      paragraph: "Upload upto 2GB of video for conversion. Please send in email through Contact Now page if you require a larger batch to be converted."
+      paragraph: "Upload upto 2GB of video for conversion. For larger batches please reach out through email."
     },
     {
       header: "Customer Support",

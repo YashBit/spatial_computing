@@ -103,10 +103,10 @@ body {
     background-color: #75a825;
   }
   .absolute-bg {
-    top: -50%; /* Increase top padding */
-    bottom: -5%; /* Increase bottom padding */
-    left: 3%;
-    right: 10%;
+    top: 15%; /* Increase top padding */
+    bottom: 15%; /* Increase bottom padding */
+    left: 35%;
+    right: 35%;
     background-color: #000000;
     opacity: 0.5; /* Adjust opacity */
     border-radius: 10px; /* Adjust border radius */
