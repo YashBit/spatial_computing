@@ -26,8 +26,8 @@ export default function ConvertNow() {
             <div className="absolute inset-0 bg-black opacity-70 rounded-lg"></div>
             <Card className="bg-transparent relative z-10 border-none">
               <CardHeader>
-                <CardTitle className="text-3xl font-bold text-center off-white-text">Convert Now</CardTitle>
-                <CardDescription className="text-lg text-center off-white-text">Upload - Pay - Receive Email</CardDescription>
+                <CardTitle className="text-3xl font-bold text-center text-core_heading">Convert Now</CardTitle>
+                <CardDescription className="text-lg text-center text-core_heading">Upload - Pay - Receive Email</CardDescription>
               </CardHeader>
               <CardContent>
                 <ProfileForm />

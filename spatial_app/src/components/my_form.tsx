@@ -79,11 +79,11 @@ export function ProfileForm() {
     <section className="flex flex-col gap-8 xl:gap-10 text-xlg">
       <Card className="text-black bg-gray-80">
         <CardHeader>
-          <CardTitle className="text-center text-core_heading">Pricing</CardTitle>
+          <CardTitle className="text-center off-white-text">Pricing</CardTitle>
         </CardHeader>
-        <CardContent className="text-center text-core_heading text-lg">
-          <p>$4.75 for 4 minutes</p>
-          <p>+$0.75 / minute after base</p>
+        <CardContent className="text-center off-white-text text-lg">
+          <p>Base Price: $4.75 for 4 minutes</p>
+          <p>+$0.75 / minute after base price</p>
           {/* <p>Total Duration: {totalDuration} seconds</p> Display the total duration of the uploaded videos */}
         </CardContent>
       </Card>

@@ -89,16 +89,16 @@ export default function Component() {
                 onChange={handleInputChange(setSubject)}
               />
             </div>
-            <div className="space-y-2 text-core_heading">
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
-                className="min-h-[100px]"
-                value={message}
-                onChange={handleInputChange(setMessage)}
-              />
+            <div className="space-y-2 text-core_heading bg-transparent">
+                <Label htmlFor="message">Message</Label>
+                <Textarea
+                    id="message"
+                    className="min-h-[100px]"
+                    value={message}
+                    onChange={handleInputChange(setMessage)}
+                />
             </div>
-            <Button type="submit">Send message</Button>
+            <Button type="submit" className = "bg-button_color">Send message</Button>
           </div>
           {success && <p className="text-green-500">Email sent!</p>}
         </form>
