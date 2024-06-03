@@ -13,7 +13,8 @@ import {
 
 const IndexPage: React.FC = () => {
   const valuePropositions: string[] = [
-    "2D -> Spatial Videos for Apple Vision Pro",
+    "SpatialPro Converter",
+  
   ];
 
   const cardContents = [
@@ -53,8 +54,11 @@ const IndexPage: React.FC = () => {
       <div className="flex flex-col justify-center items-center min-h-screen py-16">
         <div className="bg-black bg-opacity-50 p-4 rounded-lg mb-8">
           <h1 className="text-5xl font-bold text-center text-core_heading">{valuePropositions[index]}</h1>
+          
         </div>
-    
+        <div className="bg-black bg-opacity-50 p-4 rounded-lg mb-8">
+          <h2 className='text-3xl font-bold text-center text-core_heading'>Spatial Videos for your Apple Vision Pro</h2>
+        </div>
 
         <div className="mt-16 container mx-auto">
           <Carousel
