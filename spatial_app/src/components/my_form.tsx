@@ -23,9 +23,13 @@ function videoPriceCalculator(videoLengthInSeconds: number): number {
   const basePrice = 4.75;
   const additionalMinutePrice = 1;
   const videoLengthInMinutes = videoLengthInSeconds / 60;
-  const additionalMinutes = Math.max(0, Math.ceil(videoLengthInMinutes - 4));
+  const additionalMinutes = Math.max(0, Math.ceil(videoLengthInMinutes - 3));
   const additionalPrice = additionalMinutes * additionalMinutePrice;
   const totalPrice = basePrice + additionalPrice;
+  console.log("VIDEO LENGTH IS:")
+  console.log(videoLengthInSeconds);
+  console.log("TOTAL PRICE CALCULATED IS");
+  console.log(totalPrice)
   return totalPrice;
 }
 
@@ -64,39 +68,58 @@ export function ProfileForm() {
   const router = useRouter();
   const [totalDuration, setTotalDuration] = useState(0); // State for storing the total duration of the uploaded videos
   const [calculatedPrice, setCalculatedPrice] = useState(0); // State for storing the calculated price
-
-
-
+  const [selectedVideos, setSelectedVideos] = useState<FileList | null>(null);
+  
+  const handleVideoFileChange = (videoFile) => {
+      Array.from(videoFile).forEach((video) => {
+        const videoElement = document.createElement('video');
+        videoElement.src = URL.createObjectURL(video);
+        const durationInSeconds = videoElement.duration;
+        console.log("DURATION");
+        console.log(durationInSeconds);
+      });
+    // const videoElement = document.createElement('video');
+    // videoElement.src = URL.createObjectURL(videoFile);
+  
+    // videoElement.onloadedmetadata = () => {
+    //   // Duration is available after metadata has been loaded
+    //   const durationInSeconds = videoElement.duration;
+    //   console.log("Duration in seconds:", durationInSeconds);
+    //   const totalPrice = videoPriceCalculator(durationInSeconds);
+    //   console.log("Total price:", totalPrice);
+    //   setCalculatedPrice(totalPrice);
+    // };
+  };
+  
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try{
+    try {
       const videos = values["videos"];
-      const video = values["videos"][0];
       const email = values["email"];
       const name = values["name"];
       const bucketName = "spatialapp";
       const folderName = "user_data/";
-      console.log("FILE INFO");
-      console.log(video);
-      // Calculate Video Price, Submit to Stripe
-      Array.from(videos).forEach((videoFile) => {
-        const videoElement = document.createElement('video');
-        videoElement.src = URL.createObjectURL(videoFile);
-        const durationInSeconds = videoElement.duration;
-       
-      });
-
-      // Stripe Success -> Upload to s3 display success page
-
-
-      // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
-      // console.log("Uploaded file URL:", fileUrl);
-
-      router.push("convert_now/success");
+  
+      // let totalDurationInSeconds = 0;
+      // Array.from(videos).forEach((videoFile) => {
+      //   const videoElement = document.createElement('video');
+      //   videoElement.src = URL.createObjectURL(videoFile);
+      //   const durationInSeconds = videoElement.duration;
+      //   totalDurationInSeconds += durationInSeconds;
+      // });
+  
+      // const totalPrice = videoPriceCalculator(totalDurationInSeconds);
+      // setTotalDuration(totalDurationInSeconds);
+      // setCalculatedPrice(totalPrice);
+  
+      // Other logic for submission...
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
+  
 
+      // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
+      // console.log("Uploaded file URL:", fileUrl);
   return (
     <section className="flex flex-col gap-8 xl:gap-10 text-xlg">
       <Card className="text-black bg-gray-80">
@@ -104,7 +127,7 @@ export function ProfileForm() {
           <CardTitle className="text-center off-white-text">Pricing</CardTitle>
         </CardHeader>
         <CardContent className="text-center off-white-text text-lg">
-          <p>Base Price: $4.75 for 4 minutes</p>
+          <p>Base Price: $4.75 for 3 minutes</p>
           <p>+$1.00 / minute after base price</p>
           {/* <p>Total Duration: {totalDuration} seconds</p> Display the total duration of the uploaded videos */}
         </CardContent>
@@ -124,7 +147,7 @@ export function ProfileForm() {
                 <FormControl>
                   <Input  {...field} />
                 </FormControl>
-                <FormDescription className="off-white-text">This is your public display name.</FormDescription>
+                <FormDescription className="off-white-text">Legal Name</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -153,30 +176,22 @@ export function ProfileForm() {
                 <FormItem>
                   <FormLabel className="text-core_heading">Videos - mp4, avi </FormLabel>
                   <FormControl>
-                    <Input
+                  <Input
                       type="file"
                       accept="video/*"
                       multiple={true}
                       disabled={form.formState.isSubmitting}
                       {...field}
                       onChange={(event) => {
-                        const dataTransfer = new DataTransfer();
-
-                        if (videos) {
-                          Array.from(videos).forEach((video) =>
-                            dataTransfer.items.add(video)
-                          );
+                        const selectedFiles = event.target.files;
+                        if (selectedFiles) {
+                          handleVideoFileChange(selectedFiles);
                         }
-
-                        Array.from(event.target.files!).forEach((video) =>
-                          dataTransfer.items.add(video)
-                        );
-
-                        const newFiles = dataTransfer.files;
-                        onChange(newFiles);
+                        onChange(selectedFiles); // Update form state with selected files
                       }}
                     />
-                  </FormControl>
+                </FormControl>
+
                   <FormMessage />
                 </FormItem>
               );
@@ -195,6 +210,7 @@ export function ProfileForm() {
                 {form.formState.isSubmitting && (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 )}
+                
                 Submit & Pay
               </Button>
             </div>
