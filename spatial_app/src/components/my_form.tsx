@@ -18,13 +18,22 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { uploadFileToS3 } from "../server/services/s3Upload";
 
+
+function videoPriceCalculator(videoLengthInSeconds: number): number {
+  const basePrice = 4.75;
+  const additionalMinutePrice = 1;
+  const videoLengthInMinutes = videoLengthInSeconds / 60;
+  const additionalMinutes = Math.max(0, Math.ceil(videoLengthInMinutes - 4));
+  const additionalPrice = additionalMinutes * additionalMinutePrice;
+  const totalPrice = basePrice + additionalPrice;
+  return totalPrice;
+}
+
 export function ProfileForm() {
   const MAX_IMAGE_SIZE = 2147483648; // 2 GB in bytes
   const ALLOWED_VIDEO_TYPES = [
-    "video/mov",
     "video/mp4",
     "video/avi",
-    "video/*",
   ];
 
   const formSchema = z.object({
@@ -54,20 +63,33 @@ export function ProfileForm() {
   });
   const router = useRouter();
   const [totalDuration, setTotalDuration] = useState(0); // State for storing the total duration of the uploaded videos
+  const [calculatedPrice, setCalculatedPrice] = useState(0); // State for storing the calculated price
 
 
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try{
       const videos = values["videos"];
+      const video = values["videos"][0];
       const email = values["email"];
       const name = values["name"];
       const bucketName = "spatialapp";
       const folderName = "user_data/";
-      
-      const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
+      console.log("FILE INFO");
+      console.log(video);
+      // Calculate Video Price, Submit to Stripe
+      Array.from(videos).forEach((videoFile) => {
+        const videoElement = document.createElement('video');
+        videoElement.src = URL.createObjectURL(videoFile);
+        const durationInSeconds = videoElement.duration;
+       
+      });
 
-      console.log("Uploaded file URL:", fileUrl);
+      // Stripe Success -> Upload to s3 display success page
+
+
+      // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
+      // console.log("Uploaded file URL:", fileUrl);
 
       router.push("convert_now/success");
     } catch (error) {
@@ -83,7 +105,7 @@ export function ProfileForm() {
         </CardHeader>
         <CardContent className="text-center off-white-text text-lg">
           <p>Base Price: $4.75 for 4 minutes</p>
-          <p>+$0.75 / minute after base price</p>
+          <p>+$1.00 / minute after base price</p>
           {/* <p>Total Duration: {totalDuration} seconds</p> Display the total duration of the uploaded videos */}
         </CardContent>
       </Card>
@@ -129,7 +151,7 @@ export function ProfileForm() {
 
               return (
                 <FormItem>
-                  <FormLabel className="text-core_heading">Videos</FormLabel>
+                  <FormLabel className="text-core_heading">Videos - mp4, avi </FormLabel>
                   <FormControl>
                     <Input
                       type="file"
@@ -160,20 +182,22 @@ export function ProfileForm() {
               );
             }}
           />
-
           <div className="flex flex-col gap-5 sm:flex-row">
-            <Button
-              variant="default"
-              className="flex w-full flex-row items-center gap-2"
-              size="lg"
-              type="submit"
-              disabled={form.formState.isSubmitting} 
-              >
-              {form.formState.isSubmitting && (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              )}
-              Submit & Pay
-            </Button>
+              <div className="flex flex-col gap-2 w-full">
+                <p className="text-left text-core_heading font-semibold">Total Price: ${calculatedPrice.toFixed(2)}</p>
+              <Button
+                variant="default"
+                className="flex w-full flex-row items-center gap-2"
+                size="lg"
+                type="submit"
+                disabled={form.formState.isSubmitting} 
+                >
+                {form.formState.isSubmitting && (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                Submit & Pay
+              </Button>
+            </div>
           </div>
         </form>
       </Form>
