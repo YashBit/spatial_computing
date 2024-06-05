@@ -13,7 +13,8 @@ import {
 
 const IndexPage: React.FC = () => {
   const valuePropositions: string[] = [
-    "Unlock the depth of your videos with Spatial Depth",
+    "SpatialPro Converter",
+  
   ];
 
   const cardContents = [
@@ -23,7 +24,7 @@ const IndexPage: React.FC = () => {
     },
     {
       header: "Affordable Pricing",
-      paragraph: "Best prices in the market! Get access to premium video editing features without breaking the bank. "
+      paragraph: "Best prices in the market for similar products. Get access to premium video editing features without breaking the bank. "
     },
     {
       header: "Consistent",
@@ -31,7 +32,7 @@ const IndexPage: React.FC = () => {
     },
     {
       header: "Upto 2GB or 30 Minutes of 1080p HD Videos",
-      paragraph: "Upload upto 2GB of video for conversion. Please send in email through Contact Now page if you require a larger batch to be converted."
+      paragraph: "Upload upto 2GB of video for conversion. For larger batches please reach out through email."
     },
     {
       header: "Customer Support",
@@ -51,10 +52,13 @@ const IndexPage: React.FC = () => {
   return (
     <Layout title="Spatial App">
       <div className="flex flex-col justify-center items-center min-h-screen py-16">
-        <h1 className="text-5xl font-bold text-center text-core_heading">{valuePropositions[index]}</h1>
-        <p className="mt-8 text-2xl text-center off-white-text">
-          Convert any 2D video to Spatial Video for your Apple Vision Pro
-        </p>
+        <div className="bg-black bg-opacity-50 p-4 rounded-lg mb-8">
+          <h1 className="text-5xl font-bold text-center text-core_heading">{valuePropositions[index]}</h1>
+          
+        </div>
+        <div className="bg-black bg-opacity-50 p-4 rounded-lg mb-8">
+          <h2 className='text-3xl font-bold text-center text-core_heading'>Spatial Videos for your Apple Vision Pro</h2>
+        </div>
 
         <div className="mt-16 container mx-auto">
           <Carousel

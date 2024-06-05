@@ -1,16 +1,19 @@
-import React, { useState, FormEvent, ChangeEvent } from "react";
-import { Label } from "../../../src/components/ui/label";
-import { Input } from "../../../src/components/ui/input";
-import { Textarea } from "../../../src/components/ui/textarea";
-import { Button } from "../../../src/components/ui/button";
+import React, { useState, FormEvent, ChangeEvent } from 'react';
+import { Label } from '../../../src/components/ui/label';
+import { Input } from '../../../src/components/ui/input';
+import { Textarea } from '../../../src/components/ui/textarea';
+import { Button } from '../../../src/components/ui/button';
+import { useRouter } from 'next/router';
 
 export default function Component() {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [subject, setSubject] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [subject, setSubject] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [success, setSuccess] = useState<boolean>(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const formData = {
       name,
@@ -18,8 +21,27 @@ export default function Component() {
       subject,
       message,
     };
-    console.log("Form Data Submitted:", formData);
-    // You can send formData to a server or perform any other actions here
+    try {
+      const response = await fetch('/api/contact_us', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      const result = await response.json();
+      if (result.success) {
+        // router.push('/success');
+        setSuccess(true);
+      } else {
+        console.error('Error sending email:', result.error);
+        setSuccess(false);
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSuccess(false);
+    }
   };
 
   const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (
@@ -67,17 +89,18 @@ export default function Component() {
                 onChange={handleInputChange(setSubject)}
               />
             </div>
-            <div className="space-y-2 text-core_heading">
-              <Label htmlFor="message">Message</Label>
-              <Textarea
-                id="message"
-                className="min-h-[100px]"
-                value={message}
-                onChange={handleInputChange(setMessage)}
-              />
+            <div className="space-y-2 text-core_heading bg-transparent">
+                <Label htmlFor="message">Message</Label>
+                <Textarea
+                    id="message"
+                    className="min-h-[100px]"
+                    value={message}
+                    onChange={handleInputChange(setMessage)}
+                />
             </div>
-            <Button type="submit">Send message</Button>
+            <Button type="submit" className = "bg-button_color">Send message</Button>
           </div>
+          {success && <p className="text-green-500">Email sent!</p>}
         </form>
       </div>
     </div>

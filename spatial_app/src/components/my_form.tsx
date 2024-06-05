@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useEffect, useState } from 'react'; // Import useEffect and useState hooks
+import { useRouter } from 'next/router';
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -14,8 +15,8 @@ import {
   FormMessage,
   FormDescription
 } from "../components/ui/form";
-import {uploadFileToS3} from "../server/services/s3Upload"
-import { useRouter } from 'next/router';
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { uploadFileToS3 } from "../server/services/s3Upload";
 
 export function ProfileForm() {
   const MAX_IMAGE_SIZE = 2147483648; // 2 GB in bytes
@@ -52,6 +53,9 @@ export function ProfileForm() {
     resolver: zodResolver(formSchema),
   });
   const router = useRouter();
+  const [totalDuration, setTotalDuration] = useState(0); // State for storing the total duration of the uploaded videos
+
+
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try{
@@ -72,40 +76,51 @@ export function ProfileForm() {
   };
 
   return (
-    <section className="flex flex-col gap-5 xl:gap-6">
+    <section className="flex flex-col gap-8 xl:gap-10 text-xlg">
+      <Card className="text-black bg-gray-80">
+        <CardHeader>
+          <CardTitle className="text-center off-white-text">Pricing</CardTitle>
+        </CardHeader>
+        <CardContent className="text-center off-white-text text-lg">
+          <p>Base Price: $4.75 for 4 minutes</p>
+          <p>+$0.75 / minute after base price</p>
+          {/* <p>Total Duration: {totalDuration} seconds</p> Display the total duration of the uploaded videos */}
+        </CardContent>
+      </Card>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 xl:gap-5"
         >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-core_heading">Name</FormLabel>
-              <FormControl>
-                <Input  {...field} />
-              </FormControl>
-              <FormDescription className="off-white-text">This is your public display name.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-core_heading">Email Address</FormLabel>
-              <FormControl>
-                <Input type="email"  {...field} />
-              </FormControl>
-              <FormDescription className="off-white-text">Please make sure it is correct.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-core_heading">Name</FormLabel>
+                <FormControl>
+                  <Input  {...field} />
+                </FormControl>
+                <FormDescription className="off-white-text">This is your public display name.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-core_heading">Email Address</FormLabel>
+                <FormControl>
+                  <Input type="email"  {...field} />
+                </FormControl>
+                <FormDescription className="off-white-text">Please make sure it is correct.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="videos"
@@ -126,13 +141,13 @@ export function ProfileForm() {
                         const dataTransfer = new DataTransfer();
 
                         if (videos) {
-                          Array.from(images).forEach((video) =>
+                          Array.from(videos).forEach((video) =>
                             dataTransfer.items.add(video)
                           );
                         }
 
-                        Array.from(event.target.files!).forEach((videos) =>
-                          dataTransfer.items.add(videos)
+                        Array.from(event.target.files!).forEach((video) =>
+                          dataTransfer.items.add(video)
                         );
 
                         const newFiles = dataTransfer.files;
@@ -152,16 +167,17 @@ export function ProfileForm() {
               className="flex w-full flex-row items-center gap-2"
               size="lg"
               type="submit"
-              disabled={form.formState.isSubmitting}
-            >
+              disabled={form.formState.isSubmitting} 
+              >
               {form.formState.isSubmitting && (
                 <Loader2 className="h-4 w-4 animate-spin" />
               )}
-               Submit & Pay
+              Submit & Pay
             </Button>
           </div>
         </form>
       </Form>
     </section>
   );
-};
+}
+
