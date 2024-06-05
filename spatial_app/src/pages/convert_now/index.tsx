@@ -34,7 +34,7 @@ export default function ConvertNow() {
               </CardContent>
             </Card>
           </div>
-          <div className="w-1/2 p-10 left-40 z-20 flex items-center justify-center">
+          <div className="w-1/2 p-10 pr-10 left-40 z-20 flex items-center justify-center">
             <img src="/vision_pro_trailer.gif" alt="Description of image" className="rounded-lg" />
           </div>
         </div>

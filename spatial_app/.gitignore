@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+
+/vision_pro_trailer.gif
+
 # database
 /prisma/db.sqlite
 /prisma/db.sqlite-journal
