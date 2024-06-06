@@ -17,6 +17,10 @@ import {
 } from "../components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { uploadFileToS3 } from "../server/services/s3Upload";
+import {checkout} from "../server/services/checkout"
+
+
+
 
 export function ProfileForm() {
   const MAX_IMAGE_SIZE = 2147483648; // 2 GB in bytes
@@ -63,48 +67,58 @@ export function ProfileForm() {
     const additionalMinutes = Math.max(0, Math.ceil(videoLengthInMinutes - 3));
     const additionalPrice = additionalMinutes * additionalMinutePrice;
     const totalPrice = basePrice + additionalPrice;
-    console.log("VIDEO LENGTH IS:")
-    console.log(videoLengthInSeconds);
-    console.log("TOTAL PRICE CALCULATED IS");
-    console.log(totalPrice)
+
     return totalPrice;
   }
+
+  // Stripe Stuff 
+
+  // const stripe = useStripe();
+  // const elements = useElements();
+
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try{
+    try {
       const videos = values["videos"];
-      const video = values["videos"][0];
       const email = values["email"];
       const name = values["name"];
       const bucketName = "spatialapp";
       const folderName = "user_data/";
+  
+      // Calculate total duration
+      let totalDurationInSeconds = 0;
+      Array.from(videos).forEach((videoFile) => {
+        const videoElement = document.createElement('video');
+        videoElement.src = URL.createObjectURL(videoFile);
+      });
+      // NOW CALL STRIPE WITH THE SET PRICE
+      checkout({
+        lineItems: [
+          {
+            price: calculatedPrice,
+            quantity: 1
+          }
+        ]
+      })
+      // Calculate total price
+      const totalPrice = videoPriceCalculator(totalDurationInSeconds);
       
-    Array.from(videos).forEach((videoFile) => {
-      const videoElement = document.createElement('video');
-      videoElement.src = URL.createObjectURL(videoFile);
-      
-      // Listen for the metadata loaded event
-      // videoElement.onloadedmetadata = () => {
-      //   const durationInSeconds = videoElement.duration;
-      //   console.log("Duration in seconds:", durationInSeconds);
-      //   const totalPrice = videoPriceCalculator(durationInSeconds);
-      //   setCalculatedPrice(totalPrice);
-      // };
-
-
-    });
-      
-
-
+      // Proceed with file upload
       // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
+      // console.log("Uploaded file URL:", fileUrl);
+      // router.push("convert_now/success");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle error
+    }
+  };
+  
+  
+  // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
 
       // console.log("Uploaded file URL:", fileUrl);
 
       // router.push("convert_now/success");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
-  };
-
   return (
     <section className="flex flex-col gap-8 xl:gap-10 text-xlg">
       <Card className="text-black bg-gray-80">
