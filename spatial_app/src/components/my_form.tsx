@@ -53,23 +53,53 @@ export function ProfileForm() {
     resolver: zodResolver(formSchema),
   });
   const router = useRouter();
-  const [totalDuration, setTotalDuration] = useState(0); // State for storing the total duration of the uploaded videos
+  // const [totalDuration, setTotalDuration] = useState(0); // State for storing the total duration of the uploaded videos
+  const [calculatedPrice, setCalculatedPrice] = useState(0);
 
-
-
+  function videoPriceCalculator(videoLengthInSeconds: number): number {
+    const basePrice = 4.75;
+    const additionalMinutePrice = 1;
+    const videoLengthInMinutes = videoLengthInSeconds / 60;
+    const additionalMinutes = Math.max(0, Math.ceil(videoLengthInMinutes - 3));
+    const additionalPrice = additionalMinutes * additionalMinutePrice;
+    const totalPrice = basePrice + additionalPrice;
+    console.log("VIDEO LENGTH IS:")
+    console.log(videoLengthInSeconds);
+    console.log("TOTAL PRICE CALCULATED IS");
+    console.log(totalPrice)
+    return totalPrice;
+  }
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try{
       const videos = values["videos"];
+      const video = values["videos"][0];
       const email = values["email"];
       const name = values["name"];
       const bucketName = "spatialapp";
       const folderName = "user_data/";
       
-      const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
+    Array.from(videos).forEach((videoFile) => {
+      const videoElement = document.createElement('video');
+      videoElement.src = URL.createObjectURL(videoFile);
+      
+      // Listen for the metadata loaded event
+      // videoElement.onloadedmetadata = () => {
+      //   const durationInSeconds = videoElement.duration;
+      //   console.log("Duration in seconds:", durationInSeconds);
+      //   const totalPrice = videoPriceCalculator(durationInSeconds);
+      //   setCalculatedPrice(totalPrice);
+      // };
 
-      console.log("Uploaded file URL:", fileUrl);
 
-      router.push("convert_now/success");
+    });
+      
+
+
+      // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
+
+      // console.log("Uploaded file URL:", fileUrl);
+
+      // router.push("convert_now/success");
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -82,8 +112,8 @@ export function ProfileForm() {
           <CardTitle className="text-center off-white-text">Pricing</CardTitle>
         </CardHeader>
         <CardContent className="text-center off-white-text text-lg">
-          <p>Base Price: $4.75 for 4 minutes</p>
-          <p>+$0.75 / minute after base price</p>
+          <p>Base Price: $4.75 for 3 minutes</p>
+          <p>+$1 / minute after base price</p>
           {/* <p>Total Duration: {totalDuration} seconds</p> Display the total duration of the uploaded videos */}
         </CardContent>
       </Card>
@@ -102,7 +132,7 @@ export function ProfileForm() {
                 <FormControl>
                   <Input  {...field} />
                 </FormControl>
-                <FormDescription className="off-white-text">This is your public display name.</FormDescription>
+                <FormDescription className="off-white-text">Legal Name</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -149,7 +179,20 @@ export function ProfileForm() {
                         Array.from(event.target.files!).forEach((video) =>
                           dataTransfer.items.add(video)
                         );
-
+                        Array.from(event.target.files!).forEach((videoFile) => {
+                          const videoElement = document.createElement('video');
+                          videoElement.src = URL.createObjectURL(videoFile);
+                          
+                          // Listen for the metadata loaded event
+                          videoElement.onloadedmetadata = () => {
+                            const durationInSeconds = videoElement.duration;
+                            console.log("Duration in seconds:", durationInSeconds);
+                            const totalPrice = videoPriceCalculator(durationInSeconds);
+                            setCalculatedPrice(totalPrice);
+                          };
+                    
+                    
+                        });
                         const newFiles = dataTransfer.files;
                         onChange(newFiles);
                       }}
@@ -161,23 +204,26 @@ export function ProfileForm() {
             }}
           />
 
-          <div className="flex flex-col gap-5 sm:flex-row">
-            <Button
-              variant="default"
-              className="flex w-full flex-row items-center gap-2"
-              size="lg"
-              type="submit"
-              disabled={form.formState.isSubmitting} 
-              >
-              {form.formState.isSubmitting && (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              )}
-              Submit & Pay
-            </Button>
+            <div className="flex flex-col gap-5 sm:flex-row">
+              <div className="flex flex-col gap-2 w-full">
+                <p className="text-left text-core_heading font-semibold">Total Price: ${calculatedPrice.toFixed(2)}</p>
+              <Button
+                variant="default"
+                className="flex w-full flex-row items-center gap-2"
+                size="lg"
+                type="submit"
+                disabled={form.formState.isSubmitting} 
+                >
+                {form.formState.isSubmitting && (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                )}
+                
+                Submit & Pay
+              </Button>
+            </div>
           </div>
         </form>
       </Form>
     </section>
   );
 }
-

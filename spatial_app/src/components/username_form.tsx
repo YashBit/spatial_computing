@@ -52,7 +52,7 @@ export function ProfileForm2() {
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name.
+                Legal Name
               </FormDescription>
               <FormMessage />
             </FormItem>
