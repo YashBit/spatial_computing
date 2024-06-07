@@ -1,9 +1,11 @@
+"use client";
+
 import { useEffect, useState } from 'react'; // Import useEffect and useState hooks
 import { useRouter } from 'next/router';
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2 } from "lucide-react";
+import { Currency, Loader2 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import {
@@ -17,9 +19,10 @@ import {
 } from "../components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { uploadFileToS3 } from "../server/services/s3Upload";
-import {checkout} from "../server/services/checkout"
-
-
+import type Stripe from "stripe";
+import { createCheckoutSession } from "../server/services/stripe_checkout";
+import getStripe from "../../utils/get-stripejs";
+import { formatAmountForDisplay } from "../../utils/stripe-helpers";
 
 
 export function ProfileForm() {
@@ -59,7 +62,8 @@ export function ProfileForm() {
   const router = useRouter();
   // const [totalDuration, setTotalDuration] = useState(0); // State for storing the total duration of the uploaded videos
   const [calculatedPrice, setCalculatedPrice] = useState(0);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   function videoPriceCalculator(videoLengthInSeconds: number): number {
     const basePrice = 4.75;
     const additionalMinutePrice = 1;
@@ -92,17 +96,18 @@ export function ProfileForm() {
         videoElement.src = URL.createObjectURL(videoFile);
       });
       // NOW CALL STRIPE WITH THE SET PRICE
-      checkout({
-        lineItems: [
-          {
-            price: calculatedPrice,
-            quantity: 1
-          }
-        ]
-      })
-      // Calculate total price
-      const totalPrice = videoPriceCalculator(totalDurationInSeconds);
-      
+      setIsLoading(true);
+      setError(null);
+      // AFTER YOU HAVE HOSTED. YOU CAN SET THE DOMAIN HERE AS WELL.
+      getStripe()
+      try {
+        const { client_secret, url } = await createCheckoutSession(calculatedPrice);
+        // Do something with the client secret and URL, such as redirecting to Stripe Checkout
+      } catch (error) {
+        console.error("Error creating checkout session:", error);
+        // Handle the error
+      }
+      // const { client_secret, url } = data;
       // Proceed with file upload
       // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
       // console.log("Uploaded file URL:", fileUrl);
