@@ -3,7 +3,7 @@ import { Stripe, loadStripe } from '@stripe/stripe-js';
 let stripePromise: Promise<Stripe | null>;
 const getStripe = () => {
   if (!stripePromise) {
-    stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+    stripePromise = loadStripe("pk_test_51PKzDFRuOXcRVg15S7yy8vuJZFPG2IhOvGhGPvWLk1xAWLRdw3DPI7FrVTLcRtvF3hFDXnnRfiDHLjjP6aSjEzG600ocw2ZKER");
   }
   return stripePromise;
 };

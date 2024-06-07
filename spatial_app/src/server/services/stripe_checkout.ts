@@ -2,7 +2,6 @@ import { stripe } from "../../../lib/stripe";
 
 export async function createCheckoutSession(
   data: number,
-  origin: string
 ): Promise<{ client_secret: string | null; url: string | null }> {
   try {
     const checkoutSession = await stripe.checkout.sessions.create({
@@ -20,8 +19,8 @@ export async function createCheckoutSession(
           },
         },
       ],
-      success_url: `${origin}/convert_now/success`,
-      cancel_url: `${origin}/convert_now/success`,
+      success_url: `http://localhost:3000/convert_now/success`,
+      cancel_url: `http://localhost:3000/convert_now/success`,
     });
 
     return {

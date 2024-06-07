@@ -102,6 +102,11 @@ export function ProfileForm() {
       getStripe()
       try {
         const { client_secret, url } = await createCheckoutSession(calculatedPrice);
+        console.log("HI CLIENT")
+        console.log(url)
+        if (url) {
+          window.open(url, "_blank");
+        }
         // Do something with the client secret and URL, such as redirecting to Stripe Checkout
       } catch (error) {
         console.error("Error creating checkout session:", error);
