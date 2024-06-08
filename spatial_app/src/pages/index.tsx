@@ -57,7 +57,7 @@ const IndexPage: React.FC = () => {
           
         </div>
         <div className="bg-black bg-opacity-50 p-4 rounded-lg mb-8">
-          <h2 className='text-3xl font-bold text-center text-core_heading'>Spatial Videos for your Apple Vision Pro</h2>
+          <h2 className='text-3xl font-bold text-center text-core_heading'> 2D to Spatial Videos for your Apple Vision Pro</h2>
         </div>
 
         <div className="mt-16 container mx-auto">

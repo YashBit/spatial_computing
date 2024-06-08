@@ -13,7 +13,7 @@ export async function createCheckoutSession(
           price_data: {
             currency: 'usd',
             product_data: {
-              name: "Custom amount donation",
+              name: "Price Calculated from Video Length",
             },
             unit_amount: data * 100,
           },

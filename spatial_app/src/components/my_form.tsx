@@ -28,10 +28,8 @@ import { formatAmountForDisplay } from "../../utils/stripe-helpers";
 export function ProfileForm() {
   const MAX_IMAGE_SIZE = 2147483648; // 2 GB in bytes
   const ALLOWED_VIDEO_TYPES = [
-    "video/mov",
     "video/mp4",
     "video/avi",
-    "video/*",
   ];
 
   const formSchema = z.object({

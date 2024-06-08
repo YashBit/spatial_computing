@@ -20,7 +20,7 @@ export default function ConvertNow() {
       <Head>
         <title>Spatial Depth</title>
         <meta name="description" content="Convert any 2D Video to a Spatial Video"/>
-        {/* <link rel="icon" href="/favicon.ico" /> */}
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex justify-center items-center min-h-screen relative">
         <div className="relative z-10 flex w-full max-w-6xl">
@@ -29,7 +29,7 @@ export default function ConvertNow() {
             <Card className="bg-transparent relative z-10 border-none">
               <CardHeader>
                 <CardTitle className="text-3xl font-bold text-center text-core_heading">Convert Now</CardTitle>
-                <CardDescription className="text-lg text-center text-core_heading">Upload - Pay - Receive Email</CardDescription>
+                <CardDescription className="text-lg text-center text-core_heading">Upload 2D Video - Pay - Receive Email with Spatial Video</CardDescription>
               </CardHeader>
               <CardContent>
                 <ProfileForm />
