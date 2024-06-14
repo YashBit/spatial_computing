@@ -15,14 +15,11 @@ interface FileMetadata{
 }
 export const uploadFileToS3 = async (file: Express.Multer.File, email: string, name: string, bucketName: string, folderName: string): Promise<string> => {
   // const fileStream = Readable.from(file.buffer);
-  console.log("In S3")
-
   const metadata: { [key: string]: string } = { // Define metadata with a string index signature
     email,
     name
   };
   const file2 = file[0];
-
   const fileReader = new FileReader();
   const readFilePromise = new Promise((resolve, reject) => {
   fileReader.onload = () => {
@@ -32,13 +29,9 @@ export const uploadFileToS3 = async (file: Express.Multer.File, email: string, n
     fileReader.onerror = reject;
   });
   fileReader.readAsArrayBuffer(file2);
-  // console.log("File MIMETYPE")
-  // console.log(file2.type)
-  
   try {
     await readFilePromise;
     const fileContent = fileReader.result as ArrayBuffer;
-    console.log("FILE CONTENT")
     console.log(fileContent)
     const timestamp = Date.now();
     const filename = file2.name;
