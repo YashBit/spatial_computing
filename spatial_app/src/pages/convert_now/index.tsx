@@ -29,8 +29,10 @@ export default function ConvertNow() {
             <Card className="bg-transparent relative z-10 border-none">
               <CardHeader>
                 <CardTitle className="text-3xl font-bold text-center text-core_heading">Convert Now</CardTitle>
-                <CardDescription className="text-lg text-center text-core_heading">Upload 2D Video - Pay - Receive Email with Spatial Video</CardDescription>
+                <CardDescription className="text-lg text-center text-core_heading"> 1. Upload Video - 2. Pay - 3. Receive Email</CardDescription>
+                <CardDescription className="text-lg text-center text-core_heading"> Please Note: Conversion can take a few hours</CardDescription>
               </CardHeader>
+            
               <CardContent>
                 <ProfileForm />
               </CardContent>

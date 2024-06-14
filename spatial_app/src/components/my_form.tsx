@@ -73,12 +73,6 @@ export function ProfileForm() {
     return totalPrice;
   }
 
-  // Stripe Stuff 
-
-  // const stripe = useStripe();
-  // const elements = useElements();
-
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const videos = values["videos"];
@@ -93,40 +87,29 @@ export function ProfileForm() {
         const videoElement = document.createElement('video');
         videoElement.src = URL.createObjectURL(videoFile);
       });
-      // NOW CALL STRIPE WITH THE SET PRICE
+
+      const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
       setIsLoading(true);
       setError(null);
-      // AFTER YOU HAVE HOSTED. YOU CAN SET THE DOMAIN HERE AS WELL.
       getStripe()
       try {
-        const { client_secret, url } = await createCheckoutSession(calculatedPrice);
-        console.log("HI CLIENT")
-        console.log(url)
+        const { client_secret, url, sessionId } = await createCheckoutSession(calculatedPrice);
         if (url) {
-          window.open(url, "_blank");
+          window.location.href = url;
+          // window.open(url, "_blank");
         }
         // Do something with the client secret and URL, such as redirecting to Stripe Checkout
       } catch (error) {
         console.error("Error creating checkout session:", error);
-        // Handle the error
       }
-      // const { client_secret, url } = data;
-      // Proceed with file upload
       // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
-      // console.log("Uploaded file URL:", fileUrl);
-      // router.push("convert_now/success");
     } catch (error) {
       console.error("Error submitting form:", error);
       // Handle error
     }
   };
   
-  
-  // const fileUrl = await uploadFileToS3(videos, email, name, bucketName, folderName);
 
-      // console.log("Uploaded file URL:", fileUrl);
-
-      // router.push("convert_now/success");
   return (
     <section className="flex flex-col gap-8 xl:gap-10 text-xlg">
       <Card className="text-black bg-gray-80">
@@ -229,6 +212,8 @@ export function ProfileForm() {
             <div className="flex flex-col gap-5 sm:flex-row">
               <div className="flex flex-col gap-2 w-full">
                 <p className="text-left text-core_heading font-semibold">Total Price: ${calculatedPrice.toFixed(2)}</p>
+                <p className="text-left text-core_heading font-semibold">Please Wait for Payment Portal</p>
+
               <Button
                 variant="default"
                 className="flex w-full flex-row items-center gap-2"
